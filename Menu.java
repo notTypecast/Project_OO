@@ -24,7 +24,7 @@ public class Menu {
 	public static String getUserInput(String outputMsg) {
 		
 		String input;	
-		System.out.println(outputMsg);
+		System.out.print(outputMsg);
 		input = Menu.s.nextLine();
 		return input;
 		
@@ -57,7 +57,7 @@ public class Menu {
 					System.out.println("Available commands: ");
 					
 					for (String s: this.commandsMap.keySet()) {
-						System.out.println(">>" + s);
+						System.out.println("->" + s);
 					}
 					
 				}
@@ -156,14 +156,14 @@ public class Menu {
 		int c;
 		while (true) {
 			
-			System.out.println("Would you like to place an order for this item (y/n)?");
+			System.out.print("Would you like to place an order for this item (y/n)?");
 			input = Menu.s.nextLine().toLowerCase();
 			
 			if (input.compareTo("y") == 0) {
 				
 				while (true) {
 					
-					System.out.println("Quantity (blank for 1): ");
+					System.out.print("Quantity (blank for 1): ");
 					input = Menu.s.nextLine();
 					
 					if (input.length() == 0) {
@@ -285,7 +285,7 @@ public class Menu {
 		catch (EmptyCartException e) {
 			System.out.println(e.toString());
 		}
-		String input = Menu.getUserInput("Would you like to remove this buyer? [y/n]").toLowerCase();
+		String input = Menu.getUserInput("Would you like to remove this buyer (y/n)? ").toLowerCase();
 		if (input.equals("y")) {
 			try {
 				this.eshop.removeBuyer(buyer);
@@ -293,7 +293,7 @@ public class Menu {
 			//this exception will never be thrown
 			catch (BuyerNotFoundException e) {}
 		} else if (input.equals("n")) {
-			this.ownerMenu(owner);
+			this.runLoop();
 		} else if (input.equals("back")){
 			this.ownerCheckStatus(owner);
 		}
@@ -481,7 +481,7 @@ public class Menu {
 			System.out.println("Checked out successfully!");
 		}
 		catch (EmptyCartException e) {
-			e.toString();
+			System.out.println(e.toString());
 		}
 		
 	}

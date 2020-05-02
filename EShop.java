@@ -26,7 +26,6 @@ public class EShop {
         }
 
         itemsList.add(i);
-        System.out.println("Item successfully added.");
     }
 
 
@@ -72,7 +71,6 @@ public class EShop {
         }
 
         buyersList.add(b);
-        System.out.println("Buyer successfully added.");
     }
 
     public void removeBuyer(Buyer b) throws BuyerNotFoundException{
@@ -110,7 +108,7 @@ public class EShop {
         }
 
         item.setStock(stock);
-        System.out.println("Successfully updated stock of item with id " + item.getId() + ".");
+        System.out.println("Successfully updated stock of item with ID " + item.getId() + ".");
 
     }
 
@@ -149,14 +147,32 @@ public class EShop {
     }
 
     public void checkStatus(){
-        System.out.println("-------------");
+    	
+    	int maxlen_name = 0;
+    	
+    	for (Buyer b: buyersList) {
+    		if (maxlen_name < b.getName().length())
+    			maxlen_name = b.getName().length();
+    	}
+    	
+    	maxlen_name += 4;
+    	
+    	System.out.print("No\tName");
+    	for (int i = 0; i < maxlen_name - 6; ++i)
+    		System.out.print(" ");
+    	System.out.println("Points\tCategory");
+    	
+        System.out.println("---------------------------------------");
         int count = 1;
         for (Buyer bref: buyersList){
-            System.out.println(count++ + "\t" + bref.getName() + "\t" + bref.getBonus() + "\t" + bref.getBuyerCategory());
+            System.out.print(count++ + "\t" + bref.getName());
+            for (int i = 0; i < maxlen_name - bref.getName().length(); ++i)
+            	System.out.print(" ");
+            System.out.println(bref.getBonus() + "\t" + bref.getBuyerCategory());
         }
         
 
-        System.out.println("-------------");
+        System.out.println("---------------------------------------");
 
     }
 

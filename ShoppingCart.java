@@ -27,8 +27,14 @@ public class ShoppingCart {
 		
 	}
 	
-	//throws exception for when the given item doesn't exist in the cart
+	//remove from iterator instead of from map
+	//used for when removing while iterating for clear
 	public void removeItem(Item item) throws ItemNotInCartException {
+		this.removeItem(item, null);
+	}
+	
+	//throws exception for when the given item doesn't exist in the cart
+	private void removeItem(Item item, Iterator<Item> iterator) throws ItemNotInCartException {
 		
 		boolean found = false;
 		
@@ -37,7 +43,10 @@ public class ShoppingCart {
 			//compare the keys of given item with each item of hashmap
 			if (entry.getKey().getId() == item.getId()) {
 				//if the keys match, remove the item and break the loop
-				orderedItems.remove(entry.getKey());
+				if (iterator == null)
+					orderedItems.remove(entry.getKey());
+				else
+					iterator.remove();
 				//update the item's stock by adding the quantity being removed to it
 				entry.getKey().setStock(entry.getKey().getStock() + entry.getValue());
 				found = true;
@@ -79,15 +88,16 @@ public class ShoppingCart {
 			out += entry.getKey().getName() + ", price per unit: " + entry.getKey().getPrice()
 					+ ", quantity: " + entry.getValue() + ", total price: " + 
 					entry.getKey().getPrice() * entry.getValue() + "\n";
-			out += "Total: " + this.calculateNet();
-			out += "Courier cost: " + this.calculateCourierCost(category);
 			
 			System.out.println(out);
 			
 			++i;
 		}
 		
-		if (i == 0)
+		System.out.println("Total: " + this.calculateNet());
+		System.out.println("Courier cost: " + this.calculateCourierCost(category));
+		
+		if (i == 1)
 			throw new EmptyCartException();
 		
 		
@@ -101,7 +111,8 @@ public class ShoppingCart {
 		//iterate through the hashmap keys and remove each one
 		while (iterator.hasNext()) {
 			try {
-				this.removeItem(iterator.next());
+				Item item = iterator.next();
+				this.removeItem(item, iterator);
 			}
 			//the items are taken from the hashmap itself, so this catch block will never be run
 			catch (ItemNotInCartException exc) {}
@@ -113,19 +124,14 @@ public class ShoppingCart {
 		
 		this.showCart(buyer.getBuyerCategory());
 		
-		Scanner s = new Scanner(System.in);
-		
 		while (true) {
-			System.out.println("Are you sure you would like to check out (y/n)?");
-			String ans = s.nextLine().toLowerCase();
+			String ans = Menu.getUserInput("Are you sure you would like to check out (y/n)? ").toLowerCase();
 			
 			if (ans.compareTo("y") == 0)
 				break;
 			
-			else if (ans.compareTo("n") == 0) {
-				s.close();
+			else if (ans.compareTo("n") == 0)
 				return;
-			}
 						
 			else
 				System.out.println("Expected y/n.");
@@ -136,8 +142,6 @@ public class ShoppingCart {
 		buyer.awardBonus(bonus);
 		
 		this.orderedItems.clear();
-		
-		s.close();
 		
 	}
 	
