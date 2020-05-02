@@ -38,6 +38,21 @@ public class Paper extends Item{
 
     }
 
+//--------------------------------Getters---------------------
+
+
+    public int getWeight(){
+
+        return this.weight ;
+
+    }
+
+    public int getPages(){
+
+        return this.pages ;
+
+    }
+
 
 
 }
