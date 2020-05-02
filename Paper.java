@@ -1,18 +1,22 @@
 
 public class Paper extends Item{
 
-    
-    Paper(String name,double price , String description , int stock , int id){
-
-        super(name , price , description , stock , id);         //calls Item constructor
-
-    }
-
-    //Variables
+     //Variables
 
     private int weight ;
 
     private int pages ;
+    
+    
+    Paper(String name,double price , String description , int stock , int id , int weight , int pages) throws IllegalCharacterException{
+
+        super(name , price , description , stock , id);         //calls Item constructor
+
+        this.weight = weight ;
+        
+        this.pages = pages ;
+        
+    }
 
 //---------------getDetails implementation------------------
 

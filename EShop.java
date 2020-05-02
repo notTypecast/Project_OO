@@ -190,7 +190,7 @@ public class EShop {
         for (Item iref: this.itemsList){
 
             // ensuring the list has no duplicate categories
-            if (!tempList.contains(iref.getClass().getSimpleName())) {
+            if (!tempList.contains(iref.getClass().getSimpleName().toLowerCase())) {
                 tempList.add(iref.getClass().getSimpleName().toLowerCase());
             }
         }

@@ -2,9 +2,13 @@
 public class Pencil extends Item {
 
 
-	Pencil(String name,double price , String description , int stock , int id){
+	Pencil(String name,double price , String description , int stock , int id , double tipSize ,PENCIL_TYPE pencilType) throws IllegalCharacterException{
 
 		super(name , price ,description , stock , id);  	//calls Item constructor
+		
+		this.tipSize = tipSize ;
+		
+		this.pencilType = pencilType ;
 
 	}
 
@@ -13,7 +17,7 @@ public class Pencil extends Item {
 	
 	private double tipSize;
 	
-	private enum PENCIL_TYPE {
+	public enum PENCIL_TYPE {
 		
 		H,B,HB ; 
 		
@@ -29,7 +33,7 @@ public class Pencil extends Item {
 	public String getDetails() {
 		
 	
-		return ", Pencil Type is : " + pencilType.toString() +", Pencil tip Size is : " + Double.toString(tipSize) ;
+		return ", Type: " + pencilType.toString() +", Tip Size: " + Double.toString(tipSize) ;
 		
 	}
 	

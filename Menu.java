@@ -81,7 +81,6 @@ public class Menu {
 		String choice;
 		
 		while (true) {
-			eshop.showCategories();
 			choice = Menu.getUserInput("Choose a category: ").toLowerCase();
 			try {
 				

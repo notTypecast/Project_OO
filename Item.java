@@ -15,8 +15,12 @@ public abstract class Item {
     private int id ;
 
     
-    Item(String name,double price , String description , int stock , int id){
-
+    public Item(String name,double price , String description , int stock , int id) throws IllegalCharacterException {
+    	
+    	
+    	if(description.contains(";")) throw new IllegalCharacterException() ; 
+    	
+    	
         this.name = name ;
         this.price = price ;
         this.description = description ;
@@ -31,7 +35,7 @@ public abstract class Item {
     
     public String getBasicInfo() {
         
-        return this.name + " " +  Double.toString(this.price) + " " + this.description + " " + Integer.toString(this.stock) + " " +Integer.toString(this.id) ;
+        return this.name + ";" +  Double.toString(this.price) + ";" + this.description + ";" + Integer.toString(this.stock) + ";" +Integer.toString(this.id) ;
         
     }
     
@@ -42,9 +46,9 @@ public abstract class Item {
     @Override
     public String toString() {
         
-        String[] splited = getBasicInfo().split(" ") ;
+        String[] splited = getBasicInfo().split(";") ;
         
-        return "Name of Item : "+ splited[0] + ", Price of  " + splited[0] + " : " + splited[1] + ", Description of "+ splited[0] + " : " + splited[2] + ", Stock of " + splited[0] + "s : " + splited[3] + ", " + splited[0] +"'s id : " + splited[4] + getDetails() ;
+        return "Item name: "+ splited[0] + ", Price: " + splited[1] + ", Description: " + splited[2] + ", Stock: " + splited[3] + ", ID: " + splited[4] + getDetails() ;
          
     }
     

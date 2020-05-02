@@ -1,17 +1,19 @@
 
 public class Notebook extends Item{
 
-    
-    Notebook(String name,double price , String description , int stock , int id){
-
-        super(name , price , description , stock , id);     //calls Item constructor
-
-    }
-
-
     //Variables
 
     private int sections ;
+    
+    
+    
+    Notebook(String name,double price , String description , int stock , int id,int sections) throws IllegalCharacterException{
+
+        super(name , price , description , stock , id);     //calls Item constructor
+        
+        this.sections = sections ;
+
+    }
 
 
 
@@ -21,7 +23,7 @@ public class Notebook extends Item{
 
     public String getDetails(){
 
-        return ", Sections are : " + Integer.toString(sections) ;
+        return ", Sections: " + Integer.toString(sections);
 
     }
 
