@@ -4,7 +4,7 @@ public class Paper extends Item{
     
     Paper(String name,double price , String description , int stock , int id){
 
-        super(name , price , description , stock , id);
+        super(name , price , description , stock , id);         //calls Item constructor
 
     }
 
@@ -32,7 +32,7 @@ public class Paper extends Item{
     }
 
 
-    public void setPages(int p){
+    public void setPages(int p){        //Pages
 
         this.pages = p ;
 
@@ -41,13 +41,13 @@ public class Paper extends Item{
 //--------------------------------Getters---------------------
 
 
-    public int getWeight(){
+    public int getWeight(){         //weight
 
         return this.weight ;
 
     }
 
-    public int getPages(){
+    public int getPages(){          //Pages
 
         return this.pages ;
 

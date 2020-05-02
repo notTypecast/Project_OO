@@ -4,7 +4,7 @@ public class Notebook extends Item{
     
     Notebook(String name,double price , String description , int stock , int id){
 
-        super(name , price , description , stock , id);
+        super(name , price , description , stock , id);     //calls Item constructor
 
     }
 
