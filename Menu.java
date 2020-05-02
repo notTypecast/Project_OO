@@ -79,7 +79,6 @@ public class Menu {
 		List<String> categories = this.eshop.getCategories();
 		
 		String choice;
-		int c;
 		
 		while (true) {
 			eshop.showCategories();
@@ -146,14 +145,14 @@ public class Menu {
 		System.out.println(chosenItem.toString());
 		
 		if (user instanceof Buyer) {
-			buyerPlaceOrder((Buyer) user, chosenItem);
+			buyerPlaceOrder((Buyer) user, chosenItem, choice);
 		} else {
 			ownerEditItem((Owner) user, chosenItem);
 		}
 		
 	}
 	
-	private void buyerPlaceOrder(Buyer buyer, Item chosenItem) {
+	private void buyerPlaceOrder(Buyer buyer, Item chosenItem, String choice) {
 		String input;
 		int c;
 		while (true) {
@@ -241,7 +240,13 @@ public class Menu {
 			}
 			
 		}
-		this.eshop.updateItemStock(chosenItem, newq);
+		
+		try {
+			this.eshop.updateItemStock(chosenItem, newq);
+		}
+		//this exception will never be thrown
+		catch (ItemNotFoundException e) {}
+		
 		System.out.println("Stock updated successfully.");
 	}
 
@@ -275,10 +280,19 @@ public class Menu {
 	}
 
 	private void ownerBuyerOptions(Owner owner, Buyer buyer, int c){
-		buyer.getShoppingCart().showCart(buyer.getBuyerCategory());
+		try {
+			buyer.getShoppingCart().showCart(buyer.getBuyerCategory());
+		}
+		catch (EmptyCartException e) {
+			System.out.println(e.toString());
+		}
 		String input = Menu.getUserInput("Would you like to remove this buyer? [y/n]").toLowerCase();
 		if (input.equals("y")) {
-			this.eshop.removeBuyer(buyer);
+			try {
+				this.eshop.removeBuyer(buyer);
+			}
+			//this exception will never be thrown
+			catch (BuyerNotFoundException e) {}
 		} else if (input.equals("n")) {
 			this.ownerMenu(owner);
 		} else if (input.equals("back")){
@@ -496,10 +510,15 @@ public class Menu {
 					
 					String name;
 					
-					name = this.s.nextLine();
+					name = Menu.getUserInput("User name: ");
 					
 					newUser = new Buyer(name, input);
-					this.eshop.addBuyer(newUser);
+					
+					try {
+						this.eshop.addBuyer((Buyer) newUser);
+					}
+					//because of authenticate(), this exception will never be thrown
+					catch (BuyerAlreadyExistsException e) {}
 					
 				}
 				

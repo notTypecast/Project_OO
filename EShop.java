@@ -95,8 +95,8 @@ public class EShop {
            tempBRef.getMail();
 
            // this will not be executed if buyer is not found
-           this.itemsList.remove(tempBRef);
-           tempBRef.getShoppingCart().clearCart(tempBRef.getBuyerCategory());
+           this.buyersList.remove(tempBRef);
+           tempBRef.getShoppingCart().clearCart();
 
        } catch (NullPointerException e){
             throw new BuyerNotFoundException();
@@ -162,7 +162,7 @@ public class EShop {
 
     public User authenticate(String mail) throws UserNotFoundException{
         
-        if (mail.equals(this.owner.getMail()){
+        if (mail.equals(this.owner.getMail())){
             return this.owner;
         } else {
             for (Buyer bref: this.buyersList){
