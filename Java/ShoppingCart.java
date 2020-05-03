@@ -93,7 +93,7 @@ public class ShoppingCart {
 		//iterate through Map entries
 		for (Map.Entry<Item, Integer> entry: this.orderedItems.entrySet()) {
 			//print all data related to entry
-			System.out.println(i + ".");
+			System.out.print(i + ".");
 			String out = "Item: ";
 			out += entry.getKey().getName() + ", price per unit: " + entry.getKey().getPrice()
 					+ ", quantity: " + entry.getValue() + ", total price: " + 
