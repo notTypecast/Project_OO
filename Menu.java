@@ -72,7 +72,13 @@ public class Menu {
 	}
 	
 	private void browse(User user) {
-		
+		/*
+		----------------------
+		----------------------
+		NOTE: change the message below
+		----------------------
+		----------------------
+		*/
 		System.out.println("Now browsing: USER!!!");
 		
 		System.out.println("Shop name: " + this.eshop.getName());

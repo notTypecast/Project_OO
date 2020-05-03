@@ -18,11 +18,14 @@ public class EShop {
     }
 
     // methods
-    // throws exception if the item already exists in the shop
+   
     public void addItem(Item i) throws ItemAlreadyExistsException{
 
-        if (this.itemsList.contains(i)){
-            throw new ItemAlreadyExistsException();
+        // using ID as unique identifier
+        // no items should have the same ID
+        for (Item iref: this.itemsList){
+            if (iref.getId() == i.getId()) 
+                throw new ItemAlreadyExistsException();
         }
 
         itemsList.add(i);
@@ -49,6 +52,9 @@ public class EShop {
             if (iref.getId() == i.getId()){
                 // copying the reference, since removing now will cause ConcurrentModificationException
                 tempItemRef = i;
+
+                // items are unique, only one match expected 
+                break;
             }
         }
 
@@ -84,6 +90,9 @@ public class EShop {
             if ( bref.getMail().equals(b.getMail()) ){
                 // copying the reference, since removing now will cause ConcurrentModificationException
                 tempBRef = b;
+
+                // buyers are unique, only one match expected
+                break;
             }
         }
 
