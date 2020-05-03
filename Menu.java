@@ -73,6 +73,8 @@ public class Menu {
 	
 	private void browse(User user) {
 		
+		System.out.println("Now browsing: USER!!!");
+		
 		System.out.println("Shop name: " + this.eshop.getName());
 		this.eshop.showCategories();
 		
@@ -121,8 +123,10 @@ public class Menu {
 			
 			try {
 				
-				if (input.compareTo("back") == 0)
+				if (input.compareTo("back") == 0) {
 					this.browse(user);
+					return;
+				}
 				
 				c = Integer.parseInt(input);
 				
@@ -146,7 +150,7 @@ public class Menu {
 		if (user instanceof Buyer) {
 			buyerPlaceOrder((Buyer) user, chosenItem, choice);
 		} else {
-			ownerEditItem((Owner) user, chosenItem);
+			ownerEditItem((Owner) user, chosenItem, choice);
 		}
 		
 	}
@@ -156,7 +160,7 @@ public class Menu {
 		int c;
 		while (true) {
 			
-			System.out.print("Would you like to place an order for this item (y/n)?");
+			System.out.print("Would you like to place an order for this item (y/n)? ");
 			input = Menu.s.nextLine().toLowerCase();
 			
 			if (input.compareTo("y") == 0) {
@@ -207,6 +211,7 @@ public class Menu {
 			
 			else if (input.compareTo("back") == 0) {
 				this.browseCategory(buyer, choice);
+				return;
 			}
 			
 			else {
@@ -217,13 +222,18 @@ public class Menu {
 	}
 
 
-	private void ownerEditItem(Owner owner, Item chosenItem){
+	private void ownerEditItem(Owner owner, Item chosenItem, String choice){
 		String input;
 		int newq;
 		while (true){
 			input = Menu.getUserInput("Enter new quantity: ");
 
 			try {
+				if (input.compareTo("back") == 0) {
+					this.browseCategory(owner, choice);
+					return;
+				}
+				
 				newq = Integer.parseInt(input);
 				if (newq <= 0) throw new ChoiceOutOfRangeException();
 				break;
@@ -245,8 +255,6 @@ public class Menu {
 		}
 		//this exception will never be thrown
 		catch (ItemNotFoundException e) {}
-		
-		System.out.println("Stock updated successfully.");
 	}
 
 	private void ownerCheckStatus(Owner owner) {
@@ -461,6 +469,7 @@ public class Menu {
 					
 				case "back":
 					this.viewCart(buyer);
+					return;
 					
 				default:
 					System.out.println("Expected delete or edit.");
