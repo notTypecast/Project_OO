@@ -13,7 +13,7 @@ public class Buyer extends User {
 	private ShoppingCart cart;
 	
 	//Constructor initializes object with name and mail
-	public Buyer(String name, String mail) {
+	public Buyer(String name, String mail) throws InvalidNameLengthException {
 		super(name, mail);
 		//initialize bonus at 0, new shopping cart
 		this.bonus = 0;

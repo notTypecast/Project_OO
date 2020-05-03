@@ -3,7 +3,7 @@ public class Owner extends User {
 	
 	private boolean isAdmin;
 	
-	public Owner(String name, String mail) {
+	public Owner(String name, String mail) throws InvalidNameLengthException{
 		super(name, mail);
 		this.isAdmin = true;
 	}

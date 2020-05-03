@@ -3,9 +3,15 @@
 public class Main {
 
 	public static void main(String[] args) {
-		
-		
-		EShop eshop = new EShop("test_shop",new Owner("test","test@mail.gr"));
+		/*
+		----------------
+		NOTE: What should be done with NullPointerException?
+		----------------
+		*/
+		EShop eshop = null;
+		try {
+			eshop = new EShop("test_shop",new Owner("test","test@mail.gr"));
+		} catch (InvalidNameLengthException e){}
 		
 		Item[] item = new Item[12];
 		
@@ -38,12 +44,17 @@ public class Main {
 		}
 		catch(IllegalCharacterException e2) {}
 		
+		try {
+
+			buyers[0] = new Buyer("nick", "nick@mail.com");
 		
-		buyers[0] = new Buyer("nick", "nick@mail.com");
+			buyers[1] = new Buyer("chris" , "chris@mail.com");
+			
+			buyers[2] = new Buyer("george" , "george@mail.com");
+
+		} catch (InvalidNameLengthException e){}
 		
-		buyers[1] = new Buyer("chris" , "chris@mail.com");
-		
-		buyers[2] = new Buyer("george" , "george@mail.com");
+	
 		
 		
 		for(Item i : item) {
@@ -92,10 +103,16 @@ public class Main {
 		}
 		catch(InsufficientStockException e1) {}
 		
+		/*
+		--------------
+		NOTE: Maybe use try block as below?
+		--------------
+		*/
+		try {
+			Menu menu = new Menu(eshop);
+			menu.runMenu();
+		} catch (NullPointerException e){}
 		
-		Menu menu = new Menu(eshop);
-		
-		menu.runMenu();
 		
 		
 	}
