@@ -18,7 +18,7 @@ public abstract class Item {
     public Item(String name,double price , String description , int stock , int id) throws IllegalCharacterException {
     	
     	
-    	if(description.contains(";")) throw new IllegalCharacterException() ; 
+    	if(name.contains(";") || description.contains(";")) throw new IllegalCharacterException(); 
     	
     	
         this.name = name ;

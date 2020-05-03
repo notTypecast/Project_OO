@@ -104,12 +104,12 @@ public class ShoppingCart {
 			++i;
 		}
 		
+		if (i == 1)
+			throw new EmptyCartException();
+		
 		//print out the total and the courrier cost
 		System.out.println("Total: " + this.calculateNet());
 		System.out.println("Courier cost: " + this.calculateCourierCost(category));
-		
-		if (i == 1)
-			throw new EmptyCartException();
 		
 		
 	}

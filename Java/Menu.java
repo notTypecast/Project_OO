@@ -4,13 +4,17 @@ import java.util.regex.Pattern;
 
 public class Menu {
 	
+	//Scanner for System.in
 	public static Scanner s = new Scanner(System.in);
 	
+	//Regular expression for validating given email addresses
 	private String regex_pattern = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";
 	private Pattern p;
 	private Matcher m;
 	
-	private HashMap<String, Runnable> commandsMap;
+	//Map mapping commands to functions
+	//Is LinkedHashMap so commands retain their place order
+	private LinkedHashMap<String, Runnable> commandsMap;
 	
 	private EShop eshop;
 	
@@ -18,40 +22,47 @@ public class Menu {
 		this.eshop = eshop;
 		
 		this.p = Pattern.compile(this.regex_pattern);
-		this.commandsMap = new HashMap<String, Runnable>();
+		this.commandsMap = new LinkedHashMap<String, Runnable>();
 	}
 	
+	//static method to get input from user
 	public static String getUserInput(String outputMsg) {
 		
 		String input;	
 		System.out.print(outputMsg);
 		input = Menu.s.nextLine();
-		return input;
+		return input.trim();
 		
 	}
 	
+	//method to run command loop
 	private void runLoop() {
 		
 		String command;
 		
 		while (true) {
 			
+			//get a new command
 			command = getUserInput(">> ");
 			boolean foundCommand = false;
 			
+			//loop through commandsMap
 			for (Map.Entry<String, Runnable> entry: this.commandsMap.entrySet()) {
 				
+				//if command is in commandMap
 				if (command.compareTo(entry.getKey()) == 0) {
 					
+					//run the function mapped to that command
 					entry.getValue().run();
 					foundCommand = true;
 					
 				}
 			}
 			
-			
+			//if no function was run
 			if (!foundCommand) {
 				
+				//if command was the help command, show all available commands
 				if (command.compareTo("help") == 0) {
 					
 					System.out.println("Available commands: ");
@@ -71,19 +82,15 @@ public class Menu {
 		
 	}
 	
+	
+	//browse the E-Shop
 	private void browse(User user) {
-		/*
-		----------------------
-		----------------------
-		NOTE: change the message below
-		----------------------
-		----------------------
-		*/
-		System.out.println("Now browsing: USER!!!");
 		
+		//show shop information
 		System.out.println("Shop name: " + this.eshop.getName());
 		this.eshop.showCategories();
 		
+		//get all the eshop categories
 		List<String> categories = this.eshop.getCategories();
 		
 		String choice;
@@ -92,9 +99,11 @@ public class Menu {
 			choice = Menu.getUserInput("Choose a category: ").toLowerCase();
 			try {
 				
+				//move on if category was chosen
 				if (categories.contains(choice)) {
 					break;
 				}
+				//if back was chosen, exit method
 				else if (choice.toLowerCase().equals("back")) {
 					return;
 
@@ -120,15 +129,18 @@ public class Menu {
 		String input;
 		int c;
 		
+		//show information for one category
 		this.eshop.showProductsInCategory(choice);
 		
 		Item chosenItem;
 		
+		//get a specific item (by ID)
 		while (true) {
 			input = Menu.getUserInput("Item ID: ");
 			
 			try {
 				
+				//for back, run the previous function "browse" and exit this one afterwards
 				if (input.compareTo("back") == 0) {
 					this.browse(user);
 					return;
@@ -153,6 +165,8 @@ public class Menu {
 		
 		System.out.println(chosenItem.toString());
 		
+		
+		//run different function based on whether the user is an owner or not
 		if (user instanceof Buyer) {
 			buyerPlaceOrder((Buyer) user, chosenItem, choice);
 		} else {
@@ -161,9 +175,12 @@ public class Menu {
 		
 	}
 	
+	//method for placing an order as a buyer
 	private void buyerPlaceOrder(Buyer buyer, Item chosenItem, String choice) {
 		String input;
 		int c;
+		
+		//confirm whether the user wants to place the order
 		while (true) {
 			
 			System.out.print("Would you like to place an order for this item (y/n)? ");
@@ -171,6 +188,7 @@ public class Menu {
 			
 			if (input.compareTo("y") == 0) {
 				
+				//if they do, ask for a quantity
 				while (true) {
 					
 					System.out.print("Quantity (blank for 1): ");
@@ -198,10 +216,12 @@ public class Menu {
 				
 				if (c != 0) {
 					
+					//try to place the order
 					try {
 						buyer.placeOrder(chosenItem, c);
 					}
 					
+					//if there isn't enough stock, inform the user
 					catch (InsufficientStockException e) {
 						System.out.println(e.toString());
 					}
@@ -215,6 +235,8 @@ public class Menu {
 				break;
 			}
 			
+			//if the user chose to go back, go the the previous function "browseCategory"
+			//and exit this function (so the loop doesn't keep running after browseCategory finishes)
 			else if (input.compareTo("back") == 0) {
 				this.browseCategory(buyer, choice);
 				return;
@@ -227,14 +249,16 @@ public class Menu {
 		}
 	}
 
-
+	//method for the owner to edit the quantity of an item
 	private void ownerEditItem(Owner owner, Item chosenItem, String choice){
 		String input;
 		int newq;
+		//get a new quantity
 		while (true){
 			input = Menu.getUserInput("Enter new quantity: ");
 
 			try {
+				//call the previous "browseCategory" function and exit this one on "back"
 				if (input.compareTo("back") == 0) {
 					this.browseCategory(owner, choice);
 					return;
@@ -256,18 +280,25 @@ public class Menu {
 			
 		}
 		
+		//update the item stock
 		try {
 			this.eshop.updateItemStock(chosenItem, newq);
 		}
-		//this exception will never be thrown
+		//this exception will never be thrown because the item was chosen
+		//out of a list of items, and defensive programming was employed
 		catch (ItemNotFoundException e) {}
 	}
 
+	
+	//method for owner to check eshop status
 	private void ownerCheckStatus(Owner owner) {
+		//show buyers, numbered
 		this.eshop.checkStatus();
 
 		String input;
 		int c;
+		
+		//select a specific buyer number
 		while (true){
 			input = Menu.getUserInput("Select a buyer by number: ");
 
@@ -288,38 +319,53 @@ public class Menu {
 			}
 		}
 
+		//run ownerBuyerOptions for the chosen buyer
 		this.ownerBuyerOptions(owner, this.eshop.getBuyersList().get(c-1), c);
 	
 	}
 
+	
+	//method for owner to be able to remove buyers from the eshop
 	private void ownerBuyerOptions(Owner owner, Buyer buyer, int c){
+		
+		//show buyer information
 		try {
 			buyer.getShoppingCart().showCart(buyer.getBuyerCategory());
 		}
 		catch (EmptyCartException e) {
 			System.out.println(e.toString());
 		}
-		String input = Menu.getUserInput("Would you like to remove this buyer (y/n)? ").toLowerCase();
-		if (input.equals("y")) {
-			try {
-				this.eshop.removeBuyer(buyer);
+		//ask for confirmation to remove given buyer
+		while (true) {
+			String input = Menu.getUserInput("Would you like to remove this buyer (y/n)? ").toLowerCase();
+			if (input.equals("y")) {
+				try {
+					this.eshop.removeBuyer(buyer);
+				}
+				//this exception will never be thrown
+				catch (BuyerNotFoundException e) {}
+			} else if (input.equals("n")) {
+				this.runLoop();
+			} else if (input.equals("back")){
+				this.ownerCheckStatus(owner);
+			} else {
+				//if incorrect data was given, go back to the start of the loop
+				System.out.println("Expected y/n.");
+				continue;
 			}
-			//this exception will never be thrown
-			catch (BuyerNotFoundException e) {}
-		} else if (input.equals("n")) {
-			this.runLoop();
-		} else if (input.equals("back")){
-			this.ownerCheckStatus(owner);
+			
+			break;
 		}
 	}
 
-
+	//method to show a buyer their cart
 	private void viewCart(Buyer buyer) {
 		
+		//get the cart object
 		String input;		
 		ShoppingCart cart = buyer.getShoppingCart();
 		
-		
+		//show the cart
 		try {
 			cart.showCart(buyer.getBuyerCategory());
 		}
@@ -331,6 +377,8 @@ public class Menu {
 		
 		boolean validInput = false;
 		
+		//ask for whether they want to edit an order, clear the cart, or check out
+		//run the respective methods for each option
 		do {
 			
 			input = Menu.getUserInput("Edit order, clear cart or checkout (edit, clear, checkout): ").toLowerCase();
@@ -362,16 +410,18 @@ public class Menu {
 		
 	}
 	
-	
+	//method for buyers to be able to edit their orders
 	private void editOrder(ShoppingCart cart, Buyer buyer) {
 		
 		String input;
 		
+		//get all the items the buyer has ordered
 		Map<Item, Integer> allItems = cart.getOrderedItems();
 		
 		Item chosenItem = null;
 		int quantity = 0;
 		
+		//get the user's order choice
 		while (true) {
 			
 			int c;
@@ -385,15 +435,17 @@ public class Menu {
 				
 				c = Integer.parseInt(input);
 				
+				//Use an iterator to iterate through the set of the keys (which are the items)
 				Iterator<Item> iterator = allItems.keySet().iterator();
 				
 				int i = 1;
-				
+				//iterate through each item				
 				while (iterator.hasNext()) {
-					
+
 					chosenItem = iterator.next();
-					
+					//if the current item number matches the given number
 					if (i == c)	{
+						//get the quantity for the item and break
 						quantity = allItems.get(chosenItem);
 						break;
 					}
@@ -402,8 +454,12 @@ public class Menu {
 					
 				}
 				
+				//if the quantity is still 0, item number given was wrong
 				if (quantity == 0)
 					throw new ChoiceOutOfRangeException();
+				//if the quantity isn't 0, then an item was found, so break
+				else
+					break;
 					
 			}
 			
@@ -415,12 +471,12 @@ public class Menu {
 				System.out.println(e.toString());
 			}
 			
-			break;
-			
 		}
 		
 		boolean validInput = false;
 		
+		//ask the user if they'd like to delete or edit the chosen order
+		//and run the respective functions
 		do {
 			
 			input = Menu.getUserInput("Delete or edit order: ").toLowerCase();
@@ -487,39 +543,50 @@ public class Menu {
 		
 	}
 	
+	//method for user to be able to check out
 	private void checkout(Buyer buyer) {
 		
 		ShoppingCart cart = buyer.getShoppingCart();
 		
+		//run the checkout function
 		try {
+			//the checkout function asks for confirmation, so it is not needed here
 			cart.checkout(buyer);
 			System.out.println("Checked out successfully!");
 		}
+		//if the exception is raised, the cart is empty
 		catch (EmptyCartException e) {
 			System.out.println(e.toString());
 		}
 		
 	}
 	
+	//method to get mail from the user
 	public User getMail() {
 		
 		String input;
 		User newUser;
 		
+		//ask the user for an email address
 		while (true) {
 			
 			input = getUserInput("E-mail address: ");
 			
+			//try to match the regular expression for mails
 			this.m = p.matcher(input);
 			
+			//if the regular expression matches, a valid mail was given
 			if (m.find()) {
 				
+				//authenticate the user with the given mail
+				//returns the user, if found
 				try {
 				
 					newUser = this.eshop.authenticate(input);
 				
 				}
 				
+				//if the user was not found, create a new user and add them
 				catch (UserNotFoundException exc){
 					
 					String name;
@@ -531,7 +598,8 @@ public class Menu {
 					try {
 						this.eshop.addBuyer((Buyer) newUser);
 					}
-					//because of authenticate(), this exception will never be thrown
+					//this exception will never be thrown
+					//because to reach this point, UserNotFoundException has been thrown
 					catch (BuyerAlreadyExistsException e) {}
 					
 				}
@@ -550,6 +618,8 @@ public class Menu {
 		
 	}
 	
+	//First method to be run
+	//gets a new mail and determines if the user exists and is an owner or a buyer
 	public void runMenu() {
 		this.commandsMap.clear();
 		User user = getMail();
@@ -559,31 +629,29 @@ public class Menu {
 			buyerMenu((Buyer) user);
 	}
 	
+	//Buyer menu method
 	public void buyerMenu(Buyer buyer) {
 		
+		//output information about the buyer
 		System.out.println("Welcome, " + buyer.getName() + "!");
 		System.out.println("Your e-mail address is " + buyer.getMail());
 		System.out.println("Current bonus points: " + buyer.getBonus());
 		System.out.println("Current buyer category: " + buyer.getBuyerCategory());
 		
+		//Add buyer commands to the command map, mapping them to lambdas of pre-existing methods
 		this.commandsMap.put("browse", () -> this.browse(buyer));
 		this.commandsMap.put("view", () -> this.viewCart(buyer));
 		this.commandsMap.put("checkout", () -> this.checkout(buyer));
 		this.commandsMap.put("logout", () -> this.runMenu());
 		this.commandsMap.put("exit", () -> System.exit(0));
 		
+		//run the loop which gets the commands from user
 		this.runLoop();
 		
 	}
 
 
-	/*
-	----------
-	OWNER
-	----------
-	*/
-
-
+	//same as buyerMenu, but for owner commands
 	public void ownerMenu(Owner owner) {
 		System.out.println("Welcome, " + owner.getName() + "!");
 		System.out.println("Your e-mail address is " + owner.getMail());
@@ -596,6 +664,7 @@ public class Menu {
 
 		this.runLoop();
 	}
+	
 	
 	/*
 	//Implementation of custom Runnable function with argument
