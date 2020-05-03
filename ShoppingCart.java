@@ -27,12 +27,13 @@ public class ShoppingCart {
 		
 	}
 	
-	//remove from iterator instead of from map
-	//used for when removing while iterating for clear
+	//remove from map instead of iterator
+	//used for when it is required to remove a single item (no iteration)
 	public void removeItem(Item item) throws ItemNotInCartException {
 		this.removeItem(item, null);
 	}
 	
+	//removes an passed item from the cart
 	//throws exception for when the given item doesn't exist in the cart
 	private void removeItem(Item item, Iterator<Item> iterator) throws ItemNotInCartException {
 		
@@ -42,10 +43,13 @@ public class ShoppingCart {
 		for (Map.Entry<Item, Integer> entry: this.orderedItems.entrySet()) {
 			//compare the keys of given item with each item of hashmap
 			if (entry.getKey().getId() == item.getId()) {
-				//if the keys match, remove the item and break the loop
+				//if null was passed as an iterator
 				if (iterator == null)
+					//remove item from map
 					orderedItems.remove(entry.getKey());
+				//if an iterator was passed
 				else
+					//remove the next iterator item
 					iterator.remove();
 				//update the item's stock by adding the quantity being removed to it
 				entry.getKey().setStock(entry.getKey().getStock() + entry.getValue());
@@ -61,6 +65,8 @@ public class ShoppingCart {
 	}
 	
 	
+	//changes the stock of an item
+	//throws ItemNotInCartException if passed item doesn't exist in cart
 	public void changeItemQuantity(Item item, int newQ) throws ItemNotInCartException {
 		
 		boolean found = false;
@@ -79,10 +85,14 @@ public class ShoppingCart {
 		
 	}
 	
+	//shows cart data
+	//throws EmptyCartException if the cart has no items in it
 	public void showCart(Buyer.CATEGORY category) throws EmptyCartException {
 	
 		int i = 1;
+		//iterate through Map entries
 		for (Map.Entry<Item, Integer> entry: this.orderedItems.entrySet()) {
+			//print all data related to entry
 			System.out.println(i + ".");
 			String out = "Item: ";
 			out += entry.getKey().getName() + ", price per unit: " + entry.getKey().getPrice()
@@ -94,6 +104,7 @@ public class ShoppingCart {
 			++i;
 		}
 		
+		//print out the total and the courrier cost
 		System.out.println("Total: " + this.calculateNet());
 		System.out.println("Courier cost: " + this.calculateCourierCost(category));
 		
@@ -103,6 +114,8 @@ public class ShoppingCart {
 		
 	}
 	
+	//clears the cart
+	//uses iterator in order to remove items from the Map while iterating
 	public void clearCart() {
 		
 		//create an iterator of the hashmap keys, to be able to iterate and remove
@@ -120,10 +133,13 @@ public class ShoppingCart {
 		
 	}
 	
+	//checks out
+	//throws EmptyCartException if there are no items in the cart
 	public void checkout(Buyer buyer) throws EmptyCartException {
 		
 		this.showCart(buyer.getBuyerCategory());
 		
+		//get a y/n answer
 		while (true) {
 			String ans = Menu.getUserInput("Are you sure you would like to check out (y/n)? ").toLowerCase();
 			
@@ -137,6 +153,7 @@ public class ShoppingCart {
 				System.out.println("Expected y/n.");
 		}
 
+		//add the bonus and clear the cart
 		int bonus = (int) (0.1 * this.calculateNet()); 
 		
 		buyer.awardBonus(bonus);
@@ -145,6 +162,8 @@ public class ShoppingCart {
 		
 	}
 	
+	
+	//calculates the total price of all the cart items
 	public double calculateNet() {
 		
 		double total = 0.0;
@@ -157,6 +176,7 @@ public class ShoppingCart {
 		
 	}
 	
+	//calculates the courrier cost for the cart items
 	public double calculateCourierCost(Buyer.CATEGORY category) {
 		float modifier = 0.0f;
 		double total;
@@ -181,6 +201,7 @@ public class ShoppingCart {
 		
 	}
 	
+	//getter for orderedItems
 	public Map<Item, Integer> getOrderedItems() {
 		return this.orderedItems;
 	}
