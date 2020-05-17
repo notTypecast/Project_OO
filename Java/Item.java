@@ -57,9 +57,12 @@ public abstract class Item {
     
     
     
-    public void SetName(String n) {          //Name 
+    public void setName(String n) throws IllegalCharacterException {          //Name 
         
-         this.name = n ;
+    	if (n.contains(";"))
+    		throw new IllegalCharacterException();
+    	
+        this.name = n ;
          
     }
     
@@ -69,8 +72,11 @@ public abstract class Item {
         
     }
     
-    public void setDescription(String d) {   //Description
+    public void setDescription(String d) throws IllegalCharacterException {   //Description
         
+    	if (d.contains(";"))
+    		throw new IllegalCharacterException();
+    	
         this.description = d ;
             
     }

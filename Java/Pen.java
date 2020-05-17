@@ -16,6 +16,9 @@ public class Pen extends Item{
 		
 		super(name,price , description , stock ,id);  	//calls Item constructor
 		
+		if (color.contains(";"))
+			throw new IllegalCharacterException();
+		
 		this.color = color ;
 		
 		this.tipSize = tipSize ;
@@ -39,7 +42,10 @@ public class Pen extends Item{
 //---------------Setters-----------------------------
 	
 	
-	public void setColor(String c) {    	//color
+	public void setColor(String c) throws IllegalCharacterException {    	//color
+		
+		if (c.contains(";"))
+			throw new IllegalCharacterException();
 		
 		this.color = c ;
 		
