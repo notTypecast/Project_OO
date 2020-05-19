@@ -594,11 +594,19 @@ public class Menu {
 					
 					String name;
 					
-					name = Menu.getUserInput("User name: ");
+					while (true){
+						try {
+							name = Menu.getUserInput("User name: ");
 					
-					newUser = new Buyer(name, input);
+							newUser = new Buyer(name, input);
+							break;
+						} catch(InvalidNameLengthException e){
+							System.out.println(e.toString());
+						}
+					}
 					
 					try {
+						
 						this.eshop.addBuyer((Buyer) newUser);
 					}
 					//this exception will never be thrown

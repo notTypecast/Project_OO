@@ -5,7 +5,7 @@ public abstract class User {
 	private String mail;
 	
 	public User(String n, String m) throws InvalidNameLengthException {
-		if ((name.length() > 2) && (name.length() > 20))
+		if ((n.length() > 2) && (n.length() < 20))
 			this.name = n;
 		else
 			throw new InvalidNameLengthException();
