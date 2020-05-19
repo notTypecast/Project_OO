@@ -526,6 +526,10 @@ public class Menu {
 					}
 					//this exception will never be thrown
 					catch (ItemNotInCartException e) {}
+					catch (InsufficientStockException e) {
+						System.out.println(e.toString());
+						continue;
+					}
 					validInput = true;
 					break;
 					
@@ -592,15 +596,7 @@ public class Menu {
 					
 					name = Menu.getUserInput("User name: ");
 					
-					while (true){
-						try {
-							newUser = new Buyer(name, input);
-							break;
-						}
-						catch (InvalidNameLengthException e){
-							System.out.println(e.toString());
-						}
-					}
+					newUser = new Buyer(name, input);
 					
 					try {
 						this.eshop.addBuyer((Buyer) newUser);

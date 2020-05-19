@@ -67,13 +67,17 @@ public class ShoppingCart {
 	
 	//changes the stock of an item
 	//throws ItemNotInCartException if passed item doesn't exist in cart
-	public void changeItemQuantity(Item item, int newQ) throws ItemNotInCartException {
+	public void changeItemQuantity(Item item, int newQ) throws ItemNotInCartException, InsufficientStockException {
 		
 		boolean found = false;
+		int leftover_stock = item.getStock() - newQ;
+		
+		if (leftover_stock < 0)
+			throw new InsufficientStockException();
 		
 		for (Map.Entry<Item, Integer> entry: this.orderedItems.entrySet()) {
 			if (entry.getKey().getId() == item.getId()) {
-				//if item is in cart, replace it's quantity to the given number
+				//if item is in cart replace it's quantity to the given number
 				this.orderedItems.replace(entry.getKey(), newQ);
 				found = true;
 				break;
