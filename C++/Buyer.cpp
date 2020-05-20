@@ -1,4 +1,5 @@
 #include "Buyer.h"
+#include "ShoppingCart.h"
 
 Buyer::Buyer(string n, string m): User(n, m), bonus(0) {
     this->cart = new ShoppingCart();

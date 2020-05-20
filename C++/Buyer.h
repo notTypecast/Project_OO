@@ -2,7 +2,7 @@
 #define BUYER_H
 
 #include "User.h"
-#include "ShoppingCart.h"
+class ShoppingCart;
 #include "Item.h"
 
 class Buyer: public User {

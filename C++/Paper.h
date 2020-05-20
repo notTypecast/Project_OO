@@ -9,7 +9,7 @@ class Paper: public Item {
         int pages;
 
     public:
-        Paper(string n, double p, string d, int s, int i, int sec);
+        Paper(string n, double p, string d, int s, int i, int w, int pg);
 
         string getDetails();
         void setWeight(int w);

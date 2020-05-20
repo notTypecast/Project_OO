@@ -1,6 +1,10 @@
 #include "Pencil.h"
 
-Pencil::Pencil(string n, double p, string d, int s, int i, double t, PENCIL_TYPE p_t): Item(n, p, d, s i), tipSize(t), pencilType(p_t) {
+Pencil::Pencil(string n, double p, string d, int s, int i, double t, PENCIL_TYPE p_t): Item(n, p, d, s, i), tipSize(t), pencilType(p_t) {
+
+    this->enum_to_string[0] = "H";
+    this->enum_to_string[1] = "B";
+    this->enum_to_string[2] = "HB";
 
 }
 

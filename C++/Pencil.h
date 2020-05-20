@@ -4,14 +4,13 @@
 #include "Item.h"
 
 class Pencil: public Item {
-    private:
-        double tipSize;
-        PENCIL_TYPE pencilType;
-
-        final string enum_to_string[] = ["H", "B", "HB"];
-
-
     public:
+        enum PENCIL_TYPE {
+            H,
+            B,
+            HB
+        };
+
         Pencil(string n, double p, string d, int s, int i, double t, PENCIL_TYPE p_t);
 
         string getDetails();
@@ -24,11 +23,13 @@ class Pencil: public Item {
 
         PENCIL_TYPE getPencilType();
 
-        enum PENCIL_TYPE {
-            H,
-            B,
-            HB
-        }
+
+    private:
+        double tipSize;
+        PENCIL_TYPE pencilType;
+
+        string enum_to_string[3];
+
 
 };
 

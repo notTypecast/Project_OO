@@ -39,7 +39,7 @@ Item * EShop::getItemById(int id){
 
 
 void EShop::removeItem(Item * i){
-	
+
 	vector<Item *>::iterator it = this->itemsVec.begin();
 	bool itemFoundFlag = false;
 
@@ -77,7 +77,7 @@ void EShop::addBuyer(User * b){
 
 	this->buyersVec.push_back(b);
 
-	
+
 
 }
 
@@ -102,7 +102,7 @@ void EShop::removeBuyer(User * b){
 
 	if (!buyerFoundFlag){
 		throw BuyerNotFoundException();
-	}	
+	}
 }
 
 
@@ -110,7 +110,7 @@ void EShop::updateItemStock(Item * item, int stock){
 
 	for (Item * &iptr : this->itemsVec){
 		if (iptr->getId() == item->getId()){
-			
+
 			item->setStock(stock);
 			cout << "Successfully updated stock of item with ID "	<< item->getId() << ".";
 			return;
@@ -186,7 +186,7 @@ void EShop::showProduct(Item * product){
 
 void EShop::checkStatus(){
 
-	int maxlen_name = 0;
+	unsigned int maxlen_name = 0;
 
 	for (User * &bref: this->buyersVec){
 		if (maxlen_name < bref->getName().length()){
@@ -197,17 +197,17 @@ void EShop::checkStatus(){
 	maxlen_name += 4;
 
 	cout << "No\tName";
-	for (int i=0; i<maxlen_name -6; ++i){
+	for (unsigned int i=0; i<maxlen_name -6; ++i){
 		cout << " ";
 	}
-	cout << "Points\tCategory" << endl; 
+	cout << "Points\tCategory" << endl;
 
 	cout << "---------------------------------------" << endl;
 	int count = 1;
 	for (User * &bref: this->buyersVec){
 		cout << count++ << "\t" << bref->getName();
 
-		for (int i=0; i< maxlen_name - bref->getName().length(); ++i){
+		for (unsigned int i=0; i< maxlen_name - bref->getName().length(); ++i){
 			cout << " ";
 		}
 
@@ -236,6 +236,8 @@ User * EShop::authenticate(string mail){
 
 	}
 
+	return NULL;
+
 }
 
 
@@ -245,4 +247,4 @@ string EShop::getName(){
 
 vector <User *> EShop::getBuyersList(){
 	return this->buyersVec;
-}	
+}

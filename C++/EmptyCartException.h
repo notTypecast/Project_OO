@@ -3,9 +3,9 @@
 
 #include <exception>
 
-class EmptyCartException : public exception{
+class EmptyCartException: public std::exception {
     public:
-        const char* what() const noexcept(true);
+        const char* what() const noexcept;
 
 };
 
