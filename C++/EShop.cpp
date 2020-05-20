@@ -172,7 +172,7 @@ void EShop::showProductsInCategory(string category){
 	cout << "------" << endl;
 	cout << "Showing available items in category: " << category << endl;
 
-	for (Item * &iptr: this->itemsVec()){
+	for (Item * &iptr: this->itemsVec){
 		cout << iptr->toString() << endl;
 	}
 

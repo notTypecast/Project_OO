@@ -45,6 +45,7 @@ class Item {
 
         int getId();
 
+				virtual ~Item() = default;
 
 
 };
