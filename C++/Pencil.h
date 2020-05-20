@@ -1,7 +1,7 @@
-#include "Item.h"
 #ifndef PENCIL_H
 #define PENCIL_H
 
+#include "Item.h"
 
 class Pencil: public Item {
     private:

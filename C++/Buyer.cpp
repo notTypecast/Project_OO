@@ -1,6 +1,6 @@
 #include "Buyer.h"
 
-Buyer::Buyer(): User(n, m), bonus(0) {
+Buyer::Buyer(string n, string m): User(n, m), bonus(0) {
     this->cart = new ShoppingCart();
 
     this->setBuyerCategory();
@@ -18,14 +18,14 @@ void Buyer::awardBonus(int points) {
 
 void Buyer::setBuyerCategory() {
     if (this->bonus > 200)
-        this->buyerCategory = CATEGORY.GOLD;
+        this->buyerCategory = CATEGORY::GOLD;
     else if (this->bonus > 100)
-        this->buyerCategory = CATEGORY.SILVER;
+        this->buyerCategory = CATEGORY::SILVER;
     else
-        this->buyerCategory = CATEGORY.BRONZE;
+        this->buyerCategory = CATEGORY::BRONZE;
 }
 
-void Buyer::placeOrder(Item item, int quantity) {
+void Buyer::placeOrder(Item& item, int quantity) {
     this->cart->addItem(item, quantity);
 }
 
@@ -37,7 +37,7 @@ int Buyer::getBonus() {
     return this->bonus;
 }
 
-ShoppingCart Buyer::getShoppingCart() {
+ShoppingCart* Buyer::getShoppingCart() {
     return this->cart;
 }
 

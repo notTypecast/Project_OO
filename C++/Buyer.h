@@ -1,18 +1,19 @@
-#include "User.h"
-#include "ShoppingCart.h"
-#include "Item.h"
 #ifndef BUYER_H
 #define BUYER_H
 
+#include "User.h"
+#include "ShoppingCart.h"
+#include "Item.h"
 
 class Buyer: public User {
-    private:
-        int bonus;
-        CATEGORY buyerCategory;
-        ShoppingCart *cart;
-
-
     public:
+
+        enum CATEGORY {
+            BRONZE,
+            SILVER,
+            GOLD
+        };
+
         Buyer(string n, string m);
 
         ~Buyer();
@@ -21,19 +22,18 @@ class Buyer: public User {
 
         void setBuyerCategory();
 
-        void placeOrder(Item item, int quantity);
+        void placeOrder(Item& item, int quantity);
 
         CATEGORY getBuyerCategory();
 
         int getBonus();
 
-        ShoppingCart getShoppingCart();
+        ShoppingCart* getShoppingCart();
 
-        enum CATEGORY {
-            BRONZE,
-            SILVER,
-            GOLD
-        }
+    private:
+        int bonus;
+        CATEGORY buyerCategory;
+        ShoppingCart *cart;
 
 };
 

@@ -1,8 +1,8 @@
-#include "Item.h"
-#include "IllegalCharacterException.h"
 #ifndef PEN_H
 #define PEN_H
 
+#include "Item.h"
+#include "IllegalCharacterException.h"
 
 class Pen: public Item {
     private:

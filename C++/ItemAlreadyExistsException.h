@@ -1,6 +1,7 @@
-#include <exception>
 #ifndef ITEMALREADYEXISTSEXCEPTION_H
 #define ITEMALREADYEXISTSEXCEPTION_H
+
+#include <exception>
 
 class ItemAlreadyExistsException : public std::exception {
 	public:

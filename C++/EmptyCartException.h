@@ -1,9 +1,7 @@
-#include <exception>
-
-using namespace std;
-
 #ifndef EMPTYCARTEXCEPTION_H
 #define EMPTYCARTEXCEPTION_H
+
+#include <exception>
 
 class EmptyCartException : public exception{
     public:

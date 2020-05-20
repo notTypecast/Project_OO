@@ -1,10 +1,11 @@
+#ifndef ITEM_H
+#define ITEM_H
+
 #include <string>
 #include <sstream>
 #include <iostream>
-using namespace std;
 
-#ifndef ITEM_H
-#define ITEM_H
+using namespace std;
 
 
 class Item {

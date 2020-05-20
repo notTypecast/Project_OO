@@ -1,3 +1,6 @@
+#ifndef SHOPPINGCART_H
+#define SHOPPINGCART_H
+
 #include <string>
 #include <unordered_map>
 #include "Buyer.h"
@@ -5,20 +8,18 @@
 
 using namespace std;
 
-#ifndef SHOPPINGCART_H
-#define SHOPPINGCART_H
 
 class ShoppingCart{
 
     private:
         unordered_map<Item*,int> orderedItems;
-    
-    
+
+
     public:
 
         ShoppingCart();
 
-        void addItem(Item& item , int q);
+        void addItem(Item& item, int q);
 
         void removeItem(Item& item);
 
@@ -31,10 +32,10 @@ class ShoppingCart{
         void checkout(Buyer& buyer);
 
         double calculateNet();
-        
-        double calculateCourierCost(Buyer::CATEGORY category);
+
+        double calculateCourierCost(Buyer::CATEGORY);
 
 };
 
-#endif 
+#endif
 

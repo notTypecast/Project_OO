@@ -1,7 +1,7 @@
-#include <exception>
 #ifndef ILLEGALCHARACTEREXCEPTION_H
 #define ILLEGALCHARACTEREXCEPTION_H
 
+#include <exception>
 
 class IllegalCharacterException: public std::exception {
     public:

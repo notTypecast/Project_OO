@@ -1,7 +1,7 @@
-#include "Item.h"
 #ifndef NOTEBOOK_H
 #define NOTEBOOK_H
 
+#include "Item.h"
 
 class Notebook: public Item {
     private:
