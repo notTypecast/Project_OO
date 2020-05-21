@@ -8,6 +8,10 @@ string Paper::getDetails() {
     return ", Paper weight " + to_string(this->weight) + "g " + ", Pages of paper : " + to_string(this->pages);
 }
 
+string Paper::getCategory() {
+    return "paper";
+}
+
 void Paper::setWeight(int w) {
     this->weight = w;
 }

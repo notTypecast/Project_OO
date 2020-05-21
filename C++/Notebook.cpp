@@ -8,6 +8,10 @@ string Notebook::getDetails() {
     return ", Sections: " + to_string(this->sections);
 }
 
+string Notebook::getCategory() {
+    return "notebook";
+}
+
 void Notebook::setSections(int s) {
     this->sections = s;
 }

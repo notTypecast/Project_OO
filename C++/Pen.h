@@ -14,9 +14,9 @@ class Pen: public Item {
 
         Pen(string n, double p, string d, int s, int i, string c, double t);
 
-        string getDetails();
+        string getDetails() override;
 
-        string getCategory();
+        string getCategory() override;
 
         void setColor(string c);
 

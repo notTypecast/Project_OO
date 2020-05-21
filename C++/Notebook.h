@@ -10,7 +10,10 @@ class Notebook: public Item {
     public:
         Notebook(string n, double p, string d, int s, int i, int sec);
 
-        string getDetails();
+        string getDetails() override;
+
+        string getCategory() override;
+
         void setSections(int s);
         int getSections();
 

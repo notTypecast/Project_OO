@@ -13,7 +13,9 @@ class Pencil: public Item {
 
         Pencil(string n, double p, string d, int s, int i, double t, PENCIL_TYPE p_t);
 
-        string getDetails();
+        string getDetails() override;
+
+        string getCategory() override;
 
         void setTipSize(double size);
 

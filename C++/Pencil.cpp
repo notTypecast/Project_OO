@@ -12,6 +12,10 @@ string Pencil::getDetails() {
     return ", Type: " + this->enum_to_string[this->pencilType] + ", Tip Size: " + to_string(this->tipSize);
 }
 
+string Pencil::getCategory() {
+    return "pencil";
+}
+
 void Pencil::setTipSize(double s) {
     this->tipSize = s;
 }

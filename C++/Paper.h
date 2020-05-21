@@ -11,7 +11,10 @@ class Paper: public Item {
     public:
         Paper(string n, double p, string d, int s, int i, int w, int pg);
 
-        string getDetails();
+        string getDetails() override;
+
+        string getCategory() override;
+
         void setWeight(int w);
         int getWeight();
         void setPages(int p);

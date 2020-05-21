@@ -20,6 +20,7 @@ class Item {
     public:
 
         Item(string n, double p, string d, int s, int i);
+        virtual ~Item() = default;
 
         string getBasicInfo();
 
@@ -44,8 +45,6 @@ class Item {
         int getStock();
 
         int getId();
-
-				virtual ~Item() = default;
 
 
 };
