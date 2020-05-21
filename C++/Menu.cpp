@@ -1,71 +1,71 @@
 #include "Menu.h"
 
 Menu::Menu(EShop& eshop) : eshop(&eshop){
-	this->emailRegex =new regex("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$");
+    this->emailRegex =new regex("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$");
 };
 
 Menu::~Menu(){
-	delete this->emailRegex;
-	delete this->usr;
+    delete this->emailRegex;
+    delete this->usr;
 }
 
 string Menu::getUserInput(string msg, std::function<void(string)> validationFunc){
-	string input;
-	while (true) {
-		cout << msg;
-		cin >> input;
+    string input;
+    while (true) {
+        cout << msg;
+        cin >> input;
 
-		if (validationFunc == NULL){
-			break;
-		}
+        if (validationFunc == NULL){
+            break;
+        }
 
-		try {
-			validationFunc(input);
-			break;
-		} catch (BadDataException ex){
-			cout << ex.what() << endl;
-		}
+        try {
+            validationFunc(input);
+            break;
+        } catch (BadDataException ex){
+            cout << ex.what() << endl;
+        }
 
 
-	}
+    }
 
-	return input;
+    return input;
 }
 
 
 
 string Menu::getUserInput(string msg){
-	return Menu::getUserInput(msg, NULL);
+    return Menu::getUserInput(msg, NULL);
 }
 
 
 
 
 void Menu::runLoop(){
-	string command;
+    string command;
 
-	while (true){
-		command = Menu::getUserInput(">> ", [this](string cmd){this->validateCommand(cmd);});
-		commandsMap[command]();
-	}
+    while (true){
+        command = Menu::getUserInput(">> ", [this](string cmd){this->validateCommand(cmd);});
+        commandsMap[command]();
+    }
 
 }
 
 void Menu::browse(){
-	cout << "Shop name: " + this->eshop->getName() << endl;
-	this->eshop->showCategories();
+    cout << "Shop name: " + this->eshop->getName() << endl;
+    this->eshop->showCategories();
 
-	string choice = getUserInput("Choose a category: ",[this](string choice){this->validateCategoryChoice(choice);} );
+    string choice = Menu::getUserInput("Choose a category: ",[this](string choice){this->validateCategoryChoice(choice);} );
 
-	this->browseCategory(choice);
+    this->browseCategory(choice);
 
 }
 
 void Menu::browseCategory(string category){
 
-	this->eshop->showProductsInCategory(category);
+    this->eshop->showProductsInCategory(category);
 
-	int c = stoi(getUserInput("Item ID: ", [this](string choice){this->validateItemChoice(choice);}));
+    int c = stoi(Menu::getUserInput("Item ID: ", [this](string choice){this->validateItemChoice(choice);}));
 
     Item * chosenItem = this->eshop->getItemById(c);
 
@@ -199,8 +199,7 @@ void Menu::viewCart() {
     catch (EmptyCartException exc) {
         cout << exc.what() << endl;
         return;
-    }
-
+    } 
     string option = Menu::getUserInput("Edit order, clear cart or checkout (edit, clear, checkout): ", [this](string option){this->validateCartOptions(option);});
 
     if (option == "edit")
@@ -214,6 +213,54 @@ void Menu::viewCart() {
 
 
 void Menu::editOrder(ShoppingCart& cart) {
+    map<Item *, int> allItems = cart.getOrderedItems();
+    Item * chosenItem;
+    Menu::getUserInput("Choose a product by number: ", [this, &chosenItem, allItems](string chc){
+                transform(chc.begin(), chc.end(), chc.begin(), ::tolower);
+                if (chc == "back"){
+                    this->viewCart();
+                    return;
+                }
+                this->validateOrderNumber(chc);
+                int i =1;
+                bool orderFoundFlag = false;
+                int c = stoi(chc);
+                for (auto const & p: allItems){
+                    if (i == c){
+                        orderFoundFlag = true;
+                        chosenItem = p.first;
+                        break;
+                    }
+                    ++i;
+                }
+
+                if (!orderFoundFlag){
+                    throw BadDataException("Choice out of range!");
+                }
+            });
+
+
+    string choice = Menu::getUserInput("Delete or edit order: ", [this](string chc){this->validateEditDeleteChoice(chc);});
+
+    if (choice == "edit"){
+        string newq = Menu::getUserInput("New quantity: ", [this](string nq){this->validateItemQuantity(nq);});
+        int quant = stoi(newq);
+        if (quant == 0){
+            choice = "delete";
+        } else {
+            try {
+                cart.changeItemQuantity(*chosenItem, quant);
+            } catch (InsufficientStockException ex){
+                cout << ex.what() << endl;
+            }
+        }
+    }
+
+    if (choice == "delete"){
+        cart.removeItem(*chosenItem);
+    } else if (choice == "back"){
+        this->editOrder(cart);
+    }
 
 }
 
@@ -229,6 +276,27 @@ void Menu::checkout() {
  *  -----------
  *  -----------
  */
+
+void Menu::validateEditDeleteChoice(string &chc){
+    transform(chc.begin(), chc.end(), chc.begin(), ::tolower);
+
+    if (!(chc == "edit" || chc == "delete" || chc=="back")){
+        throw BadDataException("Expected delete or edit.");
+    }
+
+}
+
+void Menu::validateOrderNumber(string chc){
+    int choiceInteger;
+    try {
+        choiceInteger = stoi(chc);
+    } catch(...){
+        throw BadDataException("Insert a valid integer!");
+    } 
+
+
+
+}
 
 void Menu::validateCartOptions(string& option) {
     transform(option.begin(), option.end(), option.begin(), ::tolower);
@@ -280,55 +348,55 @@ void Menu::validateBuyerNumber(string number) {
 
 
 void Menu::validateItemChoice(string chc){
-	transform(chc.begin(), chc.end(), chc.begin(), ::tolower);
-	if (chc == "back"){
-		browse();
-		return;
-	}
-	int c;
+    transform(chc.begin(), chc.end(), chc.begin(), ::tolower);
+    if (chc == "back"){
+        browse();
+        return;
+    }
+    int c;
 
-	try {
-		c = stoi(chc);
-		this->eshop->getItemById(c);
-	}
-	catch (ItemNotFoundException ex) {
+    try {
+        c = stoi(chc);
+        this->eshop->getItemById(c);
+    }
+    catch (ItemNotFoundException ex) {
         throw BadDataException(ex.what());
-	}
-	catch (...){
+    }
+    catch (...){
         throw BadDataException("Insert a valid ID!");
-	}
+    }
 
 }
 
 
 void Menu::validateCategoryChoice(string& chc) {
-	transform(chc.begin(), chc.end(), chc.begin(), ::tolower);
+    transform(chc.begin(), chc.end(), chc.begin(), ::tolower);
 
-	if (chc == "back"){
-		runLoop();
-		return;
-	}
+    if (chc == "back"){
+        runLoop();
+        return;
+    }
 
-	vector <string> categories= this->eshop->getCategories();
+    vector <string> categories= this->eshop->getCategories();
 
-	if (find(categories.begin(), categories.end(), chc) != categories.end()){
-		return;
-	}
+    if (find(categories.begin(), categories.end(), chc) != categories.end()){
+        return;
+    }
 
-	throw BadDataException("Unknown category!");
+    throw BadDataException("Unknown category!");
 
 
 }
 
 
 void Menu::validateCommand(string command){
-	for (auto const &row : this->commandsMap){
-		if (row.first == command){
-			return;
-		}
-	}
+    for (auto const &row : this->commandsMap){
+        if (row.first == command){
+            return;
+        }
+    }
 
-	throw BadDataException("Unknown command! Use >>help for a list of available commands.");
+    throw BadDataException("Unknown command! Use >>help for a list of available commands.");
 }
 
 
@@ -341,13 +409,9 @@ void Menu::validateYesNoQuestion(string& ans) {
 
 
 void Menu::showHelp(){
-	cout << "Available commands: " << endl;
-	for (auto const &row: this->commandsMap){
-		cout << "->" + row.first;
-	}
+    cout << "Available commands: " << endl;
+    for (auto const &row: this->commandsMap){
+        cout << "->" + row.first;
+    }
 }
-
-
-
-
 

@@ -2,7 +2,7 @@
 #define SHOPPINGCART_H
 
 #include <string>
-#include <unordered_map>
+#include <map>
 #include "Buyer.h"
 #include "Item.h"
 
@@ -12,7 +12,7 @@ using namespace std;
 class ShoppingCart{
 
     private:
-        unordered_map<Item*,int> orderedItems;
+        map<Item*,int> orderedItems;
 
 
     public:
@@ -35,7 +35,7 @@ class ShoppingCart{
 
         double calculateCourierCost(Buyer::CATEGORY category);
 
-        unordered_map<Item*, int> getOrderedItems();
+        map<Item*, int> getOrderedItems();
 
 };
 

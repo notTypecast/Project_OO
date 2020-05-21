@@ -52,6 +52,8 @@ class Menu
         void validateItemQuantity(string quantity);
         void validateBuyerNumber(string number);
         void validateCartOptions(string& option);
+        void validateOrderNumber(string chc);
+        void validateEditDeleteChoice(string &chc);
 
 };
 

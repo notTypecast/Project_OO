@@ -113,7 +113,7 @@ double ShoppingCart::calculateNet(){
 
     double total = 0.0;
 
-    for(auto& key : orderedItems){
+    for(auto const&  key : orderedItems){
         total+= key.first->getPrice() * key.second;
 
     }
@@ -147,7 +147,7 @@ double ShoppingCart::calculateCourierCost(Buyer::CATEGORY category){
 
 //getter for orderedItems
 
-unordered_map<Item*,int> ShoppingCart::getOrderedItems() {
+map<Item*,int> ShoppingCart::getOrderedItems() {
     return this->orderedItems;
 }
 
