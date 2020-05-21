@@ -19,7 +19,7 @@ void ShoppingCart::addItem(Item& item ,int q){
 
     }
 
-    else{ 
+    else{
 
         try{
             throw InsufficientStockException();
@@ -35,7 +35,7 @@ void ShoppingCart::addItem(Item& item ,int q){
 void ShoppingCart::removeItem(Item& item){
 
     if(orderedItems.find(&item) == orderedItems.end()){
-        
+
         try{
             throw ItemNotInCartException();
         }
@@ -48,14 +48,14 @@ void ShoppingCart::removeItem(Item& item){
         item.setStock(item.getStock() + orderedItems[&item]);
         orderedItems.erase(&item);
     }
-    
+
 }
 
 void ShoppingCart :: changeItemQuantity(Item& item , int newQ){
     int leftover_stock = item.getStock() - newQ;
 
     if(orderedItems.find(&item) == orderedItems.end()){
-        
+
         try{
             throw ItemNotInCartException();
         }
@@ -85,14 +85,14 @@ void ShoppingCart :: changeItemQuantity(Item& item , int newQ){
 }
 
 void ShoppingCart::showCart(Buyer::CATEGORY category){
-    
-    int i =1
-    for(auto& key : orderedItems){
-        cout << i << ". Item: " << key.first->getName() << ", price per unit: " 
-        << key.first->getPrice() << ", quantity: " << key.second << ", total price: " 
-        << key.first->getPrice() * key.second << endl;
 
-        ++i;    
+    int i = 1;
+    for (auto const& p: orderedItems) {
+        cout << i << ". Item: " << p.first->getName() << ", price per unit: "
+        << p.first->getPrice() << ", quantity: " << p.second << ", total price: "
+        << p.first->getPrice() * p.second << endl;
+
+        ++i;
     }
 
     if(i == 1){
@@ -106,14 +106,14 @@ void ShoppingCart::showCart(Buyer::CATEGORY category){
 
     cout << "Total: " << this->calculateNet() <<endl;
     cout << "Courier cost: " << this->calculateCourierCost(category) << endl;
-} 
+}
 
 void ShoppingCart::clearCart(){
 
     for(auto& key : orderedItems){
-        
+
         this->removeItem(*(key.first));
-    
+
     }
 }
 
@@ -123,20 +123,27 @@ void ShoppingCart::checkout(Buyer& buyer){
 
     //get answer
     while(true){
-        String ans = toLower(Menu::getUserInput("Are you sure you would like to check out (y/n)? "));
 
-        if(ans.compare("y") == 0) 
+        /*
+            NOTE:
+                CHANGE THIS IF getUserInput IS IMPLEMENTED
+                WITH VALIDATION FUNCTION
+        */
+
+        string ans = tolower(Menu::getUserInput("Are you sure you would like to check out (y/n)? "));
+
+        if(ans.compare("y") == 0)
             break;
-        
-        else if(ans.compare("n") == 0) 
+
+        else if(ans.compare("n") == 0)
             return;
 
-        else 
+        else
             cout << "Expected y/n" << endl;
 
     }
 
-    int bonus = (int) (o.1 * this->calculateNet());
+    int bonus = (int) (0.1 * this->calculateNet());
 
     buyer.awardBonus(bonus);
 
@@ -157,19 +164,19 @@ double ShoppingCart::calculateNet(){
     return total;
 }
 
-double ShoppingCart::calculateCourierCost(Buyer::Category category){
+double ShoppingCart::calculateCourierCost(Buyer::CATEGORY category){
 
     float modifier = 0.0f;
     double total;
 
     switch (category){
-        case BRONZE :
+        case Buyer::CATEGORY::BRONZE :
             modifier = 1.0f;
             break;
-        case SILVER:
+        case Buyer::CATEGORY::SILVER:
             modifier = 0.5f;
             break;
-        case GOLD:
+        case Buyer::CATEGORY::GOLD:
             return 0.0;
     }
 
@@ -177,13 +184,13 @@ double ShoppingCart::calculateCourierCost(Buyer::Category category){
 
     if(total <3.0)
         total = 3.0;
-    
+
     return total * modifier;
 }
 
 //getter for orderedItems
 
-unordered_map<Item*,int> getOrderedItems({
+unordered_map<Item*,int> ShoppingCart::getOrderedItems() {
     return this->orderedItems;
 }
 

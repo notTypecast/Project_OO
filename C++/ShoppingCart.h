@@ -33,7 +33,9 @@ class ShoppingCart{
 
         double calculateNet();
 
-        double calculateCourierCost(Buyer::CATEGORY);
+        double calculateCourierCost(Buyer::CATEGORY category);
+
+        unordered_map<Item*, int> getOrderedItems();
 
 };
 
