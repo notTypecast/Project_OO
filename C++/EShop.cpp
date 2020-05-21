@@ -2,32 +2,25 @@
 
 using namespace std;
 
-/* -------------------
- * -------------------
- *  NOTE: should we change some methods to const?
- *  ------------------
- *  ------------------
- */
+EShop::EShop(string name, Owner &owner) : name(name), owner(owner){}
 
-EShop::EShop(string name, Owner * &owner) : name(name), owner(owner){}
+void EShop::addItem(Item &item){
 
-void EShop::addItem(Item * item){
-
-	for (Item * &iptr : this->itemsVec){
-		if (iptr->getId() == item->getId()){
+	for (Item * iptr : this->itemsVec){
+		if (iptr->getId() == item.getId()){
 			throw ItemAlreadyExistsException();
 		}
 	}
 
-	this->itemsVec.push_back(item);
+	this->itemsVec.push_back(&item);
 }
 
 
-Item * EShop::getItemById(int id){
+Item& EShop::getItemById(int id){
 
-	for (Item * &iptr : this->itemsVec){
+	for (Item * iptr : this->itemsVec){
 		if (iptr->getId() == id){
-			return iptr;
+			return *iptr;
 		}
 	}
 
@@ -38,14 +31,14 @@ Item * EShop::getItemById(int id){
 
 
 
-void EShop::removeItem(Item * i){
+void EShop::removeItem(Item &i){
 
 	vector<Item *>::iterator it = this->itemsVec.begin();
 	bool itemFoundFlag = false;
 
 	while (it != this->itemsVec.end()) {
 
-		if ((*it)->getId() == i->getId()){
+		if ((*it)->getId() == i.getId()){
 
 			delete *it;
 			it = this->itemsVec.erase(it);
@@ -64,10 +57,10 @@ void EShop::removeItem(Item * i){
 }
 
 
-void EShop::addBuyer(User * b){
+void EShop::addBuyer(User &b){
 
 	for (User * &bref: this->buyersVec){
-		if (bref->getMail() == b->getMail()){
+		if (bref->getMail() == b.getMail()){
 			throw BuyerAlreadyExistsException();
 		}
 	}
@@ -75,20 +68,20 @@ void EShop::addBuyer(User * b){
 
 
 
-	this->buyersVec.push_back(b);
+	this->buyersVec.push_back(&b);
 
 
 
 }
 
 
-void EShop::removeBuyer(User * b){
+void EShop::removeBuyer(User &b){
 	vector <User *>::iterator it = this->buyersVec.begin();
 	bool buyerFoundFlag = false;
 
 	while (it != this->buyersVec.end()) {
 
-		if (b->getMail().compare((*it)->getMail()) == 0){
+		if (b.getMail().compare((*it)->getMail()) == 0){
 
 			delete *it;
 			it = this->buyersVec.erase(it);
@@ -106,13 +99,13 @@ void EShop::removeBuyer(User * b){
 }
 
 
-void EShop::updateItemStock(Item * item, int stock){
+void EShop::updateItemStock(Item &item, int stock){
 
 	for (Item * &iptr : this->itemsVec){
-		if (iptr->getId() == item->getId()){
+		if (iptr->getId() == item.getId()){
 
-			item->setStock(stock);
-			cout << "Successfully updated stock of item with ID "	<< item->getId() << ".";
+			item.setStock(stock);
+			cout << "Successfully updated stock of item with ID "	<< item.getId() << ".";
 			return;
 		}
 	}
@@ -127,7 +120,7 @@ void EShop::updateItemStock(Item * item, int stock){
 vector <string> EShop::getCategories(){
 	vector <string> tempVec;
 
-	for (Item * &iptr : this->itemsVec){
+	for (Item * iptr : this->itemsVec){
 		string currentCategory = iptr->getCategory();
 		bool categoryExists = false;
 
@@ -172,7 +165,7 @@ void EShop::showProductsInCategory(string category){
 	cout << "------" << endl;
 	cout << "Showing available items in category: " << category << endl;
 
-	for (Item * &iptr: this->itemsVec){
+	for (Item * iptr: this->itemsVec){
 		cout << iptr->toString() << endl;
 	}
 
@@ -180,8 +173,8 @@ void EShop::showProductsInCategory(string category){
 
 }
 
-void EShop::showProduct(Item * product){
-	cout << product->toString() << endl;
+void EShop::showProduct(Item &product){
+	cout << product.toString() << endl;
 }
 
 void EShop::checkStatus(){
@@ -221,10 +214,9 @@ void EShop::checkStatus(){
 
 
 User * EShop::authenticate(string mail){
+	if (mail.compare(this->owner.getMail()) == 0) {
 
-	if (mail.compare(this->owner->getMail()) == 0) {
-
-		return this->owner;
+		return &(this->owner);
 
 	} else {
 
@@ -241,7 +233,7 @@ User * EShop::authenticate(string mail){
 }
 
 
-string EShop::getName(){
+string EShop::getName() {
 	return this->name;
 }
 

@@ -21,21 +21,21 @@ class EShop {
 
 	private:
 		string name;
-		Owner * owner;
+		Owner owner;
 		vector <Item *> itemsVec;
 		vector <User *> buyersVec;
 
 	public:
-		EShop(string name, Owner * &owner);
-		void addItem(Item * i);
-		Item * getItemById(int id);
-		void removeItem(Item * i);
-		void addBuyer(User * b);
-		void removeBuyer(User * b);
-		void updateItemStock(Item * item, int stock);
+		EShop(string name, Owner &owner);
+		void addItem(Item &i);
+		Item& getItemById(int id);
+		void removeItem(Item &i);
+		void addBuyer(User &b);
+		void removeBuyer(User &b);
+		void updateItemStock(Item &item, int stock);
 		void showCategories();
 		void showProductsInCategory(string category);
-		void showProduct(Item * product);
+		void showProduct(Item &product);
 		void checkStatus();
 		User * authenticate(string mail);
 		string getName();
@@ -46,16 +46,5 @@ class EShop {
 
 
 };
-
-
-
-
-
-
-
-
-
-
-
 
 #endif
