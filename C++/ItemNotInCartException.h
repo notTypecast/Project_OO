@@ -8,6 +8,7 @@ using namespace std;
 
 class ItemNotInCartException : public exception{
 
+	public:
      const char* what() const noexcept(true);
 
 };

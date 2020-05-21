@@ -1,31 +1,16 @@
 #include <iostream>
-#include "Item.h"
-#include "Pen.h"
-#include "Owner.h"
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
 
-void swapPointer(Owner * &opt);
 
 int  main(){
 
-	Owner * fo = new Owner("oldowner", "old@mail.com");
-
-	cout << "This is owner mail now: " << fo->getMail() << endl;
-
-	swapPointer(fo);
-
-	cout << "This is owner mail after: " << fo->getMail() << endl;
-	
-	return 0;
-
+	string hello = "worlDFd";
+	transform(hello.begin(), hello.end(), hello.begin(), ::tolower);
+	cout << hello << endl;
 	
 }
 
-void swapPointer(Owner * &opt){
-	Owner * newopt = new Owner("newowner", "gio@gmail.com");
-	opt = newopt;
-	return;
-}

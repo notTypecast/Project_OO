@@ -3,7 +3,8 @@
 #include <exception>
 
 class ItemNotFoundException : public std::exception {
-	const char * what() const noexcept;
+	public: 
+		const char * what() const noexcept;
 };
 
 #endif

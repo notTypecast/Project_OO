@@ -28,7 +28,7 @@ class EShop {
 	public:
 		EShop(string name, Owner &owner);
 		void addItem(Item &i);
-		Item& getItemById(int id);
+		Item * getItemById(int id);
 		void removeItem(Item &i);
 		void addBuyer(User &b);
 		void removeBuyer(User &b);

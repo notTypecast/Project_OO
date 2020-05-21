@@ -6,7 +6,7 @@ EShop::EShop(string name, Owner &owner) : name(name), owner(owner){}
 
 void EShop::addItem(Item &item){
 
-	for (Item * iptr : this->itemsVec){
+	for (Item * &iptr : this->itemsVec){
 		if (iptr->getId() == item.getId()){
 			throw ItemAlreadyExistsException();
 		}
@@ -16,11 +16,11 @@ void EShop::addItem(Item &item){
 }
 
 
-Item& EShop::getItemById(int id){
+Item * EShop::getItemById(int id){
 
-	for (Item * iptr : this->itemsVec){
+	for (Item * &iptr : this->itemsVec){
 		if (iptr->getId() == id){
-			return *iptr;
+			return iptr;
 		}
 	}
 
@@ -81,7 +81,7 @@ void EShop::removeBuyer(User &b){
 
 	while (it != this->buyersVec.end()) {
 
-		if (b.getMail().compare((*it)->getMail()) == 0){
+		if (b.getMail() == (*it)->getMail()){
 
 			delete *it;
 			it = this->buyersVec.erase(it);
@@ -120,13 +120,13 @@ void EShop::updateItemStock(Item &item, int stock){
 vector <string> EShop::getCategories(){
 	vector <string> tempVec;
 
-	for (Item * iptr : this->itemsVec){
+	for (Item * &iptr : this->itemsVec){
 		string currentCategory = iptr->getCategory();
 		bool categoryExists = false;
 
 
 		for (string &strref : tempVec){
-			if (currentCategory.compare(strref) == 0){
+			if (currentCategory == strref){
 				categoryExists = true;
 				break;
 			}
@@ -165,7 +165,7 @@ void EShop::showProductsInCategory(string category){
 	cout << "------" << endl;
 	cout << "Showing available items in category: " << category << endl;
 
-	for (Item * iptr: this->itemsVec){
+	for (Item * &iptr: this->itemsVec){
 		cout << iptr->toString() << endl;
 	}
 
@@ -214,14 +214,14 @@ void EShop::checkStatus(){
 
 
 User * EShop::authenticate(string mail){
-	if (mail.compare(this->owner.getMail()) == 0) {
+	if (mail == this->owner.getMail()) {
 
 		return &(this->owner);
 
 	} else {
 
 		for (User * &bref : this->buyersVec){
-			if (mail.compare(bref->getMail())){
+			if (mail == bref->getMail()){
 				return bref;
 			}
 		}

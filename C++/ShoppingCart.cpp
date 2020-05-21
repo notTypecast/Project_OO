@@ -132,10 +132,10 @@ void ShoppingCart::checkout(Buyer& buyer){
 
         string ans = tolower(Menu::getUserInput("Are you sure you would like to check out (y/n)? "));
 
-        if(ans.compare("y") == 0)
+        if(ans == "y")
             break;
 
-        else if(ans.compare("n") == 0)
+        else if(ans == "n")
             return;
 
         else
