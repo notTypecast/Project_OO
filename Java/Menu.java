@@ -320,7 +320,12 @@ public class Menu {
 		}
 
 		//run ownerBuyerOptions for the chosen buyer
-		this.ownerBuyerOptions(owner, this.eshop.getBuyersList().get(c-1), c);
+		try {
+			this.ownerBuyerOptions(owner, this.eshop.getBuyersList().get(c-1), c);
+		}
+		catch (IndexOutOfBoundsException exc) {
+			System.out.println("No buyer has that number!");
+		}
 	
 	}
 
