@@ -121,27 +121,25 @@ void ShoppingCart::checkout(Buyer& buyer){
 
     this->showCart(buyer.getBuyerCategory());
 
-    //get answer
-    while(true){
+    bool checkout;
 
-        /*
-            NOTE:
-                CHANGE THIS IF getUserInput IS IMPLEMENTED
-                WITH VALIDATION FUNCTION
-        */
+    Menu::getUserInput("Are you sure you would like to check out (y/n)? ", [this, &checkout](string ans){
 
-        string ans = tolower(Menu::getUserInput("Are you sure you would like to check out (y/n)? "));
+        if (ans == "y")
+            checkout = true;
 
-        if(ans == "y")
-            break;
-
-        else if(ans == "n")
-            return;
+        else if (ans == "n")
+            checkout = false;
 
         else
-            cout << "Expected y/n" << endl;
+            throw BadDataException("Expected y/n.");
 
-    }
+
+    });
+
+
+    if (!checkout)
+        return;
 
     int bonus = (int) (0.1 * this->calculateNet());
 

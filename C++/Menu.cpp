@@ -17,7 +17,7 @@ string Menu::getUserInput(string msg, std::function<void(string)> validationFunc
 
 		if (validationFunc == NULL){
 			break;
-		}  
+		}
 
 		try {
 			validationFunc(input);
@@ -57,21 +57,20 @@ void Menu::browse(){
 
 	string choice = getUserInput("Choose a category: ",[this](string choice){this->validateCategoryChoice(choice);} );
 
-	this->browseCategory(choice);	
+	this->browseCategory(choice);
 
 }
 
 void Menu::browseCategory(string category){
 
 	this->eshop->showProductsInCategory(category);
-	
+
 	int c = stoi(getUserInput("Item ID: ", [this](string choice){this->validateItemChoice(choice);}));
 
-	try {
-		Item * chosenItem = this->eshop->getItemById(c);
-	} catch (ItemNotFoundException ex){
-		cout << ex.what() << endl;
-	}
+    Item * chosenItem = this->eshop->getItemById(c);
+
+    cout << chosenItem->toString();
+
 
 }
 
@@ -92,9 +91,14 @@ void Menu::validateItemChoice(string chc){
 	int c;
 
 	try {
-		c = stoi(chc);	
-	} catch (...){
-		throw BadDataException("Insert a valid ID!");
+		c = stoi(chc);
+		this->eshop->getItemById(c);
+	}
+	catch (ItemNotFoundException ex) {
+        throw BadDataException(ex.what());
+	}
+	catch (...){
+        throw BadDataException("Insert a valid ID!");
 	}
 
 }
@@ -107,7 +111,7 @@ void Menu::validateCategoryChoice(string chc) {
 		runLoop();
 		return;
 	}
-	
+
 	vector <string> categories= this->eshop->getCategories();
 
 	if (find(categories.begin(), categories.end(), chc) != categories.end()){
@@ -115,7 +119,7 @@ void Menu::validateCategoryChoice(string chc) {
 	}
 
 	throw BadDataException("Unknown category!");
-	
+
 
 }
 
@@ -131,7 +135,7 @@ void Menu::validateCommand(string command){
 }
 
 void Menu::showHelp(){
-	cout << "Available commands: " << endl;	
+	cout << "Available commands: " << endl;
 	for (auto const &row: this->commandsMap){
 		cout << "->" + row.first;
 	}
