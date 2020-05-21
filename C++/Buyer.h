@@ -28,7 +28,7 @@ class Buyer: public User {
 
         int getBonus();
 
-        ShoppingCart* getShoppingCart();
+        ShoppingCart& getShoppingCart();
 
     private:
         int bonus;

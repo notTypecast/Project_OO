@@ -38,7 +38,7 @@ int Buyer::getBonus() {
     return this->bonus;
 }
 
-ShoppingCart* Buyer::getShoppingCart() {
-    return this->cart;
+ShoppingCart& Buyer::getShoppingCart() {
+    return *this->cart;
 }
 
