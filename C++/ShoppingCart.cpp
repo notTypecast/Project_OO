@@ -19,30 +19,15 @@ void ShoppingCart::addItem(Item& item ,int q){
 
     }
 
-    else{
-
-        try{
-            throw InsufficientStockException();
-        }
-
-        catch(exception& e){
-            cout << e.what() << endl;
-        }
-    }
+    else
+        throw InsufficientStockException();
 
 }
 
 void ShoppingCart::removeItem(Item& item){
 
-    if(orderedItems.find(&item) == orderedItems.end()){
-
-        try{
+    if(orderedItems.find(&item) == orderedItems.end())
             throw ItemNotInCartException();
-        }
-        catch(exception& ex){
-            cout<< ex.what() <<endl;
-        }
-    }
 
     else{
         item.setStock(item.getStock() + orderedItems[&item]);
@@ -54,27 +39,11 @@ void ShoppingCart::removeItem(Item& item){
 void ShoppingCart :: changeItemQuantity(Item& item , int newQ){
     int leftover_stock = item.getStock() - newQ;
 
-    if(orderedItems.find(&item) == orderedItems.end()){
-
-        try{
+    if(orderedItems.find(&item) == orderedItems.end())
             throw ItemNotInCartException();
-        }
-        catch(exception& ex){
-            cout<< ex.what() <<endl;
-        }
-    }
 
-    else if(leftover_stock < 0){
-
-         try{
+    else if(leftover_stock < 0)
             throw InsufficientStockException();
-        }
-
-        catch(exception& e){
-            cout << e.what() << endl;
-        }
-
-    }
 
     else{
         item.setStock(leftover_stock);
@@ -95,14 +64,8 @@ void ShoppingCart::showCart(Buyer::CATEGORY category){
         ++i;
     }
 
-    if(i == 1){
-        try{
-            throw EmptyCartException();
-        }
-        catch(exception& e1){
-            cout << e1.what() << endl;
-        }
-    }
+    if(i == 1)
+        throw EmptyCartException();
 
     cout << "Total: " << this->calculateNet() <<endl;
     cout << "Courier cost: " << this->calculateCourierCost(category) << endl;
@@ -110,7 +73,7 @@ void ShoppingCart::showCart(Buyer::CATEGORY category){
 
 void ShoppingCart::clearCart(){
 
-    for(auto& key : orderedItems){
+    for(auto const& key : orderedItems){
 
         this->removeItem(*(key.first));
 
@@ -124,17 +87,13 @@ void ShoppingCart::checkout(Buyer& buyer){
     bool checkout;
 
     Menu::getUserInput("Are you sure you would like to check out (y/n)? ", [this, &checkout](string ans){
+        Menu::validateYesNoQuestion(ans);
 
         if (ans == "y")
             checkout = true;
 
         else if (ans == "n")
             checkout = false;
-
-        else
-            throw BadDataException("Expected y/n.");
-
-
     });
 
 

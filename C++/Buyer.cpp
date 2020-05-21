@@ -11,6 +11,10 @@ Buyer::~Buyer() {
     delete this->cart;
 }
 
+bool Buyer::isOwner() {
+    return false;
+}
+
 void Buyer::awardBonus(int points) {
     this->bonus += points;
 

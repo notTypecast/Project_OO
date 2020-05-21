@@ -4,6 +4,10 @@ Owner::Owner(string n, string m): User(n, m), isAdmin(true) {
 
 }
 
+bool Owner::isOwner() {
+    return true;
+}
+
 bool Owner::getAdminStatus() {
     return this->isAdmin;
 }

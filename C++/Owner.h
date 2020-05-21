@@ -10,6 +10,8 @@ class Owner: public User {
     public:
         Owner(string n, string m);
 
+        bool isOwner() override;
+
         bool getAdminStatus();
 
         void changeAdminStatus();

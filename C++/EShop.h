@@ -30,8 +30,8 @@ class EShop {
 		void addItem(Item &i);
 		Item * getItemById(int id);
 		void removeItem(Item &i);
-		void addBuyer(User &b);
-		void removeBuyer(User &b);
+		void addBuyer(User* b);
+		void removeBuyer(User* b);
 		void updateItemStock(Item &item, int stock);
 		void showCategories();
 		void showProductsInCategory(string category);

@@ -17,6 +17,7 @@ class User {
         User(string n, string m);
         virtual ~User() = default;
 
+        virtual bool isOwner() = 0;
         string getName();
         void setName(string n);
         string getMail();

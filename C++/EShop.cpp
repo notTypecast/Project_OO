@@ -57,10 +57,10 @@ void EShop::removeItem(Item &i){
 }
 
 
-void EShop::addBuyer(User &b){
+void EShop::addBuyer(User* b){
 
 	for (User * &bref: this->buyersVec){
-		if (bref->getMail() == b.getMail()){
+		if (bref->getMail() == b->getMail()){
 			throw BuyerAlreadyExistsException();
 		}
 	}
@@ -68,20 +68,20 @@ void EShop::addBuyer(User &b){
 
 
 
-	this->buyersVec.push_back(&b);
+	this->buyersVec.push_back(b);
 
 
 
 }
 
 
-void EShop::removeBuyer(User &b){
+void EShop::removeBuyer(User* b){
 	vector <User *>::iterator it = this->buyersVec.begin();
 	bool buyerFoundFlag = false;
 
 	while (it != this->buyersVec.end()) {
 
-		if (b.getMail() == (*it)->getMail()){
+		if (b->getMail() == (*it)->getMail()){
 
 			delete *it;
 			it = this->buyersVec.erase(it);

@@ -18,6 +18,8 @@ class Buyer: public User {
 
         ~Buyer();
 
+        bool isOwner() override;
+
         void awardBonus(int points);
 
         void setBuyerCategory();
