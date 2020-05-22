@@ -71,9 +71,6 @@ void ShoppingCart::showCart(Buyer::CATEGORY category){
     cout << "Courier cost: " << this->calculateCourierCost(category) << endl;
 }
 
-//THIS WILL NOT WORK
-//NEED TO USE ITERATOR
-//CANNOT REMOVE WHILE ITERATING NORMALLY
 void ShoppingCart::clearCart(){
 
     for (auto it = this->orderedItems.cbegin(); it != this->orderedItems.cend(); ++it)
