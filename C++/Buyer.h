@@ -28,6 +28,8 @@ class Buyer: public User {
 
         CATEGORY getBuyerCategory();
 
+        string getBuyerCategoryString();
+
         int getBonus();
 
         ShoppingCart* getShoppingCart();
@@ -36,6 +38,8 @@ class Buyer: public User {
         int bonus;
         CATEGORY buyerCategory;
         ShoppingCart *cart;
+
+        string enum_to_string[3];
 
 };
 

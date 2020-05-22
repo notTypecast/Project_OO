@@ -9,7 +9,7 @@ using namespace std;
 class InsufficientStockException : public exception{
 
     public:
-        const char* what() const noexcept(true);
+        const char* what() const noexcept;
 
 };
 

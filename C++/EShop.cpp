@@ -228,7 +228,7 @@ User * EShop::authenticate(string mail){
 
 	}
 
-	return NULL;
+    throw UserNotFoundException();
 
 }
 

@@ -2,6 +2,7 @@
 #define USER_H
 
 #include <string>
+#include "InvalidNameLengthException.h"
 
 using namespace std;
 

@@ -9,6 +9,7 @@
 #include "ItemNotFoundException.h"
 #include "BuyerAlreadyExistsException.h"
 #include "BuyerNotFoundException.h"
+#include "UserNotFoundException.h"
 #include "Buyer.h"
 #include "User.h"
 #include <vector>

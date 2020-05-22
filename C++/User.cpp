@@ -2,6 +2,9 @@
 
 User::User(string n, string m): name(n), mail(m) {
 
+    if (!(n.length() > 2 && n.length() < 20))
+        throw InvalidNameLengthException();
+
 }
 
 string User::getName() {

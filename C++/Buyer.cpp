@@ -5,6 +5,10 @@ Buyer::Buyer(string n, string m): User(n, m), bonus(0) {
     this->cart = new ShoppingCart();
 
     this->setBuyerCategory();
+
+    this->enum_to_string[0] = "BRONZE";
+    this->enum_to_string[1] = "SILVER";
+    this->enum_to_string[2] = "GOLD";
 }
 
 Buyer::~Buyer() {
@@ -36,6 +40,10 @@ void Buyer::placeOrder(Item& item, int quantity) {
 
 Buyer::CATEGORY Buyer::getBuyerCategory() {
     return this->buyerCategory;
+}
+
+string Buyer::getBuyerCategoryString() {
+    return this->enum_to_string[this->buyerCategory];
 }
 
 int Buyer::getBonus() {

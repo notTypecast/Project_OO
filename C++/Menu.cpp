@@ -199,7 +199,7 @@ void Menu::viewCart() {
     catch (EmptyCartException exc) {
         cout << exc.what() << endl;
         return;
-    } 
+    }
     string option = Menu::getUserInput("Edit order, clear cart or checkout (edit, clear, checkout): ", [this](string option){this->validateCartOptions(option);});
 
     if (option == "edit")
@@ -267,6 +267,101 @@ void Menu::editOrder(ShoppingCart& cart) {
 
 void Menu::checkout() {
 
+    Buyer* buyer = dynamic_cast<Buyer*>(this->usr);
+    ShoppingCart* cart = buyer->getShoppingCart();
+
+    try {
+        cart->checkout(*buyer);
+    }
+    catch (EmptyCartException exc) {
+        cout << exc.what() << endl;
+    }
+
+}
+
+
+User* Menu::getMail() {
+
+    User* newUser;
+    string mail = Menu::getUserInput("E-mail address: ", [this](string address){this->validateEmailAddress(address);});
+
+    try {
+        newUser = this->eshop->authenticate(mail);
+    }
+    catch (UserNotFoundException exc) {
+        string name;
+
+        while (true) {
+
+            try {
+                name = Menu::getUserInput("User name: ");
+                newUser = new Buyer(name, mail);
+                break;
+            }
+            catch (InvalidNameLengthException exc) {
+                cout << exc.what() << endl;
+            }
+
+        }
+
+        this->eshop->addBuyer(newUser);
+    }
+
+    return newUser;
+
+}
+
+
+void Menu::runMenu() {
+    this->commandsMap.clear();
+
+    //delete this->usr before overwriting it, in case it contains object
+    delete this->usr;
+
+    this->usr = this->getMail();
+    if (this->usr->isOwner())
+        this->ownerMenu();
+    else
+        this->buyerMenu();
+
+}
+
+
+void Menu::buyerMenu() {
+
+    Buyer* buyer = dynamic_cast<Buyer*>(this->usr);
+
+    cout << "Welcome, " << buyer->getName() << "!" << endl;
+    cout << "Your e-mail address is " << buyer->getMail() << endl;
+    cout << "Current bonus points: " << buyer->getBonus() << endl;
+    cout << "Current buyer category: " << buyer->getBuyerCategoryString() << endl;
+
+    this->commandsMap.insert({"browse", [this](){this->browse();}});
+    this->commandsMap.insert({"view", [this](){this->viewCart();}});
+    this->commandsMap.insert({"checkout", [this](){this->checkout();}});
+    this->commandsMap.insert({"logout", [this](){this->runMenu();}});
+    this->commandsMap.insert({"exit", [this](){exit(0);}});
+
+    this->runLoop();
+
+}
+
+
+void Menu::ownerMenu() {
+
+    //cast to Owner* unnecessary, only User methods used
+
+    cout << "Welcome, " << this->usr->getName() << "!" << endl;
+    cout << "Your e-mail address is " << this->usr->getMail() << endl;
+    cout << "You are the owner of the shop." << endl;
+
+    this->commandsMap.insert({"browse", [this](){this->browse();}});
+    this->commandsMap.insert({"status", [this](){this->ownerCheckStatus();}});
+    this->commandsMap.insert({"logout", [this](){this->runMenu();}});
+    this->commandsMap.insert({"exit", [this](){exit(0);}});
+
+    this->runLoop();
+
 }
 
 
@@ -276,6 +371,14 @@ void Menu::checkout() {
  *  -----------
  *  -----------
  */
+
+void Menu::validateEmailAddress(string address) {
+
+    if (!regex_match(address, *this->emailRegex))
+        throw BadDataException("Insert a valid e-mail address!");
+
+}
+
 
 void Menu::validateEditDeleteChoice(string &chc){
     transform(chc.begin(), chc.end(), chc.begin(), ::tolower);
@@ -287,14 +390,11 @@ void Menu::validateEditDeleteChoice(string &chc){
 }
 
 void Menu::validateOrderNumber(string chc){
-    int choiceInteger;
     try {
-        choiceInteger = stoi(chc);
+        stoi(chc);
     } catch(...){
         throw BadDataException("Insert a valid integer!");
-    } 
-
-
+    }
 
 }
 

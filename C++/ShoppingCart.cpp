@@ -15,7 +15,7 @@ void ShoppingCart::addItem(Item& item ,int q){
 
     if(leftover_stock >= 0){
         item.setStock(leftover_stock);
-        this->orderedItems.insert(make_pair(&item,q));
+        this->orderedItems.insert({&item, q});
 
     }
 
@@ -48,7 +48,7 @@ void ShoppingCart :: changeItemQuantity(Item& item , int newQ){
     else{
         item.setStock(leftover_stock);
         orderedItems.erase(&item);
-        this->orderedItems.insert(make_pair(&item,newQ));
+        this->orderedItems.insert({&item, newQ});
     }
 
 }
@@ -71,13 +71,14 @@ void ShoppingCart::showCart(Buyer::CATEGORY category){
     cout << "Courier cost: " << this->calculateCourierCost(category) << endl;
 }
 
+//THIS WILL NOT WORK
+//NEED TO USE ITERATOR
+//CANNOT REMOVE WHILE ITERATING NORMALLY
 void ShoppingCart::clearCart(){
 
-    for(auto const& key : orderedItems){
+    for (auto it = this->orderedItems.cbegin(); it != this->orderedItems.cend(); ++it)
+        this->removeItem(*it->first);
 
-        this->removeItem(*(key.first));
-
-    }
 }
 
 void ShoppingCart::checkout(Buyer& buyer){

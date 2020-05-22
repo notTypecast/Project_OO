@@ -6,12 +6,14 @@
 #include "BadDataException.h"
 #include "EmptyCartException.h"
 #include "InsufficientStockException.h"
+#include "InvalidNameLengthException.h"
 #include <regex>
 #include <stdexcept>
 #include <vector>
 #include <functional>
 #include <map>
 #include <algorithm>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -24,7 +26,7 @@ class Menu
         User * getMail();
         void runMenu();
         void buyerMenu();
-        void ownerMenu(Owner &owner);
+        void ownerMenu();
         ~Menu();
 
         static void validateYesNoQuestion(string& ans);
@@ -54,6 +56,7 @@ class Menu
         void validateCartOptions(string& option);
         void validateOrderNumber(string chc);
         void validateEditDeleteChoice(string &chc);
+        void validateEmailAddress(string address);
 
 };
 

@@ -25,6 +25,8 @@ class Pencil: public Item {
 
         PENCIL_TYPE getPencilType();
 
+        string getPencilTypeString();
+
 
     private:
         double tipSize;

@@ -31,3 +31,9 @@ void Pencil::setPencilType(PENCIL_TYPE type) {
 Pencil::PENCIL_TYPE Pencil::getPencilType() {
     return this->pencilType;
 }
+
+string Pencil::getPencilTypeString() {
+
+    return this->enum_to_string[this->pencilType];
+
+}
