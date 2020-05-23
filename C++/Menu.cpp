@@ -13,7 +13,7 @@ string Menu::getUserInput(string msg, std::function<void(string)> validationFunc
     string input;
     while (true) {
         cout << msg;
-        cin >> input;
+        getline(cin, input);
 
         if (validationFunc == NULL){
             break;
@@ -67,9 +67,10 @@ void Menu::browseCategory(string category){
 
     int c = stoi(Menu::getUserInput("Item ID: ", [this](string choice){this->validateItemChoice(choice);}));
 
+
     Item * chosenItem = this->eshop->getItemById(c);
 
-    cout << chosenItem->toString();
+    cout << chosenItem->toString() << endl;
 
     if (this->usr->isOwner())
         this->ownerEditItem(*chosenItem, category);
