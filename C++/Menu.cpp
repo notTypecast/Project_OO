@@ -339,6 +339,7 @@ void Menu::buyerMenu() {
     this->commandsMap.insert({"browse", [this](){this->browse();}});
     this->commandsMap.insert({"view", [this](){this->viewCart();}});
     this->commandsMap.insert({"checkout", [this](){this->checkout();}});
+    this->commandsMap.insert({"help", [this](){this->showHelp();}});
     this->commandsMap.insert({"logout", [this](){this->runMenu();}});
     this->commandsMap.insert({"exit", [this](){exit(0);}});
 
@@ -357,6 +358,7 @@ void Menu::ownerMenu() {
 
     this->commandsMap.insert({"browse", [this](){this->browse();}});
     this->commandsMap.insert({"status", [this](){this->ownerCheckStatus();}});
+    this->commandsMap.insert({"help", [this](){this->showHelp();}});
     this->commandsMap.insert({"logout", [this](){this->runMenu();}});
     this->commandsMap.insert({"exit", [this](){exit(0);}});
 
@@ -511,7 +513,7 @@ void Menu::validateYesNoQuestion(string& ans) {
 void Menu::showHelp(){
     cout << "Available commands: " << endl;
     for (auto const &row: this->commandsMap){
-        cout << "->" + row.first;
+        cout << "->" + row.first << endl;
     }
 }
 
