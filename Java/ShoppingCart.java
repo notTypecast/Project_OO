@@ -18,6 +18,9 @@ public class ShoppingCart {
 		
 		if (leftover_stock >= 0) {
 			item.setStock(leftover_stock);
+			if (this.orderedItems.containsKey(item)){
+				q += this.orderedItems.get(item);
+			}
 			this.orderedItems.put(item, q);
 		}
 		
