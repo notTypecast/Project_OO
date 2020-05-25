@@ -15,6 +15,8 @@ void ShoppingCart::addItem(Item& item ,int q){
 
     if(leftover_stock >= 0){
         item.setStock(leftover_stock);
+        if (this->orderedItems.find(&item) != this->orderedItems.end())
+            q += this->orderedItems[&item];
         this->orderedItems.insert({&item, q});
 
     }
