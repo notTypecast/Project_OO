@@ -143,7 +143,7 @@ public class EShop {
         // using toLowerCase to make the comparison case insensitive
         for (Item iref: this.itemsList){
             if ( (iref.getClass().getSimpleName().toLowerCase()).equals(category.toLowerCase()) ) {
-                System.out.println(iref.toString());
+                this.showProduct(iref);
             }
         }
 
