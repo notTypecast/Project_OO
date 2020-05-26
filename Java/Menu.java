@@ -527,7 +527,7 @@ public class Menu {
 					}
 					
 					try {
-						cart.changeItemQuantity(chosenItem, q);
+						cart.editOrderedQuantity(chosenItem, q);
 					}
 					//this exception will never be thrown
 					catch (ItemNotInCartException e) {}
