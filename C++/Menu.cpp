@@ -250,7 +250,7 @@ void Menu::editOrder(ShoppingCart& cart) {
             choice = "delete";
         } else {
             try {
-                cart.changeItemQuantity(*chosenItem, quant);
+                cart.editOrderedQuantity(*chosenItem, quant);
             } catch (InsufficientStockException ex){
                 cout << ex.what() << endl;
             }

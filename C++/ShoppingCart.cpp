@@ -39,18 +39,19 @@ void ShoppingCart::removeItem(Item& item){
 
 }
 
-void ShoppingCart :: changeItemQuantity(Item& item , int newQ){
-    int leftover_stock = item.getStock() - newQ;
+void ShoppingCart :: editOrderedQuantity(Item& item , int newQ){
 
-    if(orderedItems.find(&item) == orderedItems.end())
+    if(this->orderedItems.find(&item) == orderedItems.end())
             throw ItemNotInCartException();
 
-    else if(leftover_stock < 0)
+    int leftover_stock = item.getStock() + this->orderedItems[&item] - newQ;
+
+    if(leftover_stock < 0)
             throw InsufficientStockException();
 
     else{
         item.setStock(leftover_stock);
-        orderedItems.erase(&item);
+        this->orderedItems.erase(&item);
         this->orderedItems.insert({&item, newQ});
     }
 

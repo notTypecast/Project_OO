@@ -23,7 +23,7 @@ class ShoppingCart{
 
         void removeItem(Item& item);
 
-        void changeItemQuantity(Item& item , int newQ);
+        void editOrderedQuantity(Item& item , int newQ);
 
         void showCart(Buyer::CATEGORY category);
 

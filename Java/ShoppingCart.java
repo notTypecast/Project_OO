@@ -185,7 +185,7 @@ public class ShoppingCart {
 			total += entry.getKey().getPrice() * entry.getValue();
 		}
 		
-		return total;
+		return Math.round(total * 100.0) / 100.0;
 		
 	}
 	
@@ -210,7 +210,7 @@ public class ShoppingCart {
 		if (total < 3.0)
 			total = 3.0;
 		
-		return total * modifier;
+		return Math.round(total * modifier * 100.0) / 100.0;
 		
 	}
 	
