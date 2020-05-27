@@ -40,7 +40,6 @@ void EShop::removeItem(Item &i){
 
 		if ((*it)->getId() == i.getId()){
 
-			delete *it;
 			it = this->itemsVec.erase(it);
 			itemFoundFlag = true;
 			break;
@@ -83,7 +82,6 @@ void EShop::removeBuyer(User* b){
 
 		if (b->getMail() == (*it)->getMail()){
 
-			delete *it;
 			it = this->buyersVec.erase(it);
 			buyerFoundFlag = true;
 			break;
