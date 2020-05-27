@@ -7,7 +7,7 @@ Menu::Menu(EShop& eshop) : eshop(&eshop){
 Menu::~Menu(){
     delete this->emailRegex;
     delete this->usr;
-    for (Buyer* &bref: this->eshop->getBuyersList){
+    for (User* &bref: this->eshop->getBuyersList()){
         delete bref;
     }
 }
