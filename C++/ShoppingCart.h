@@ -3,8 +3,15 @@
 
 #include <string>
 #include <map>
+#include <iostream>
 #include "Buyer.h"
 #include "Item.h"
+
+#include "InsufficientStockException.h"
+#include "ItemNotInCartException.h"
+#include "EmptyCartException.h"
+#include "Menu.h"
+
 
 using namespace std;
 

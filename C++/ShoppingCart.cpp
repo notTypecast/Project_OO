@@ -1,10 +1,5 @@
-#include <iostream>
-#include <exception>
+
 #include "ShoppingCart.h"
-#include "InsufficientStockException.h"
-#include "ItemNotInCartException.h"
-#include "EmptyCartException.h"
-#include "Menu.h"
 
 
 ShoppingCart::ShoppingCart(){}
@@ -39,7 +34,7 @@ void ShoppingCart::removeItem(Item& item){
 
 }
 
-void ShoppingCart :: editOrderedQuantity(Item& item , int newQ){
+void ShoppingCart::editOrderedQuantity(Item& item , int newQ){
 
     if(this->orderedItems.find(&item) == orderedItems.end())
             throw ItemNotInCartException();
