@@ -65,7 +65,7 @@ void EShop::addBuyer(User* b){
 	}
 
 
-
+	
 
 	this->buyersVec.push_back(b);
 
@@ -204,7 +204,7 @@ void EShop::checkStatus(){
 			cout << " ";
 		}
 
-		cout << (dynamic_cast<Buyer *>(bref))->getBonus() << "\t" << (dynamic_cast<Buyer *>(bref))->getBuyerCategory() << endl;
+		cout << (dynamic_cast<Buyer *>(bref))->getBonus() << "\t" << (dynamic_cast<Buyer *>(bref))->getBuyerCategoryString() << endl;
 
 	}
 

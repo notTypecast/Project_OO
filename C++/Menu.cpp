@@ -7,6 +7,9 @@ Menu::Menu(EShop& eshop) : eshop(&eshop){
 Menu::~Menu(){
     delete this->emailRegex;
     delete this->usr;
+    for (Buyer* &bref: this->eshop->getBuyersList){
+        delete bref;
+    }
 }
 
 string Menu::getUserInput(string msg, std::function<void(string)> validationFunc){
@@ -304,8 +307,8 @@ User* Menu::getMail() {
             }
 
         }
-
-        this->eshop->addBuyer(newUser);
+        this->eshop->addBuyer(newUser); 
+       
     }
 
     return newUser;
@@ -316,8 +319,6 @@ User* Menu::getMail() {
 void Menu::runMenu() {
     this->commandsMap.clear();
 
-    //delete this->usr before overwriting it, in case it contains object
-    delete this->usr;
 
     this->usr = this->getMail();
     if (this->usr->isOwner())
