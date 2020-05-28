@@ -307,8 +307,8 @@ User* Menu::getMail() {
             }
 
         }
-        this->eshop->addBuyer(newUser); 
-       
+        this->eshop->addBuyer(newUser);
+
     }
 
     return newUser;
@@ -477,7 +477,7 @@ void Menu::validateCategoryChoice(string& chc) {
     transform(chc.begin(), chc.end(), chc.begin(), ::tolower);
 
     if (chc == "back"){
-        runLoop();
+        this->runLoop();
         return;
     }
 

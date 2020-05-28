@@ -65,7 +65,7 @@ void EShop::addBuyer(User* b){
 	}
 
 
-	
+
 
 	this->buyersVec.push_back(b);
 
@@ -94,6 +94,8 @@ void EShop::removeBuyer(User* b){
 	if (!buyerFoundFlag){
 		throw BuyerNotFoundException();
 	}
+
+	delete b;
 }
 
 
