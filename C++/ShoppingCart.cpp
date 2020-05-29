@@ -27,10 +27,8 @@ void ShoppingCart::removeItem(Item& item){
     if(orderedItems.find(&item) == orderedItems.end())
             throw ItemNotInCartException();
 
-    else{
-        item.setStock(item.getStock() + orderedItems[&item]);
-        orderedItems.erase(&item);
-    }
+    item.setStock(item.getStock() + orderedItems[&item]);
+    orderedItems.erase(&item);
 
 }
 
