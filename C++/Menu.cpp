@@ -18,9 +18,8 @@ string Menu::getUserInput(string msg, std::function<void(string)> validationFunc
         cout << msg;
         getline(cin, input);
 
-        if (validationFunc == NULL){
+        if (validationFunc == NULL)
             break;
-        }
 
         try {
             validationFunc(input);
@@ -58,7 +57,10 @@ void Menu::browse(){
     cout << "Shop name: " + this->eshop->getName() << endl;
     this->eshop->showCategories();
 
-    string choice = Menu::getUserInput("Choose a category: ",[this](string choice){this->validateCategoryChoice(choice);} );
+    string choice = Menu::getUserInput("Choose a category: ",[this](string choice){this->validateCategoryChoice(choice);});
+
+    if (choice == "back")
+        return;
 
     this->browseCategory(choice);
 
@@ -68,7 +70,12 @@ void Menu::browseCategory(string category){
 
     this->eshop->showProductsInCategory(category);
 
-    int c = stoi(Menu::getUserInput("Item ID: ", [this](string choice){this->validateItemChoice(choice);}));
+    string input = Menu::getUserInput("Item ID: ", [this](string choice){this->validateItemChoice(choice);});
+
+    if (input == "back")
+        return;
+
+    int c = stoi(input);
 
 
     Item * chosenItem = this->eshop->getItemById(c);
@@ -105,13 +112,18 @@ void Menu::buyerPlaceOrder(Item& chosenItem, string category) {
 
 
     string quantity_s = Menu::getUserInput("Quantity (blank for 1): ", [this](string quantity){this->validateItemQuantity(quantity);});
+
+    if (quantity_s == "back") {
+        this->buyerPlaceOrder(chosenItem, category);
+        return;
+    }
+
     int quantity;
 
     if (quantity_s == "")
         quantity = 1;
     else
         quantity = stoi(quantity_s);
-
 
     if (quantity != 0) {
 
@@ -138,6 +150,10 @@ void Menu::ownerEditItem(Item& chosenItem, string category) {
         else
             this->validateItemQuantity(quantity);
     });
+
+    if (quantity_s == "back")
+        return;
+
     int quantity = stoi(quantity_s);
 
     this->eshop->updateItemStock(chosenItem, quantity);
@@ -149,6 +165,10 @@ void Menu::ownerCheckStatus() {
     this->eshop->checkStatus();
 
     string number = Menu::getUserInput("Select a buyer by number: ", [this](string number){this->validateBuyerNumber(number);});
+
+    if (number == "back")
+        return;
+
     int n = stoi(number);
 
 
@@ -219,51 +239,66 @@ void Menu::viewCart() {
 void Menu::editOrder(ShoppingCart& cart) {
     map<Item *, int> allItems = cart.getOrderedItems();
     Item * chosenItem;
-    Menu::getUserInput("Choose a product by number: ", [this, &chosenItem, allItems](string chc){
-                transform(chc.begin(), chc.end(), chc.begin(), ::tolower);
-                if (chc == "back"){
-                    this->viewCart();
-                    return;
+    string choice = Menu::getUserInput("Choose a product by number: ", [this, &chosenItem, allItems](string chc){
+        transform(chc.begin(), chc.end(), chc.begin(), ::tolower);
+        if (chc == "back"){
+            this->viewCart();
+            return;
+        }
+        this->validateOrderNumber(chc);
+        int i =1;
+        bool orderFoundFlag = false;
+        int c = stoi(chc);
+        for (auto const & p: allItems){
+            if (i == c){
+                orderFoundFlag = true;
+                chosenItem = p.first;
+                break;
+            }
+            ++i;
+        }
+
+        if (!orderFoundFlag){
+            throw BadDataException("Choice out of range!");
+        }
+    });
+
+    if (choice == "back")
+        return;
+
+    while (true) {
+
+        choice = Menu::getUserInput("Delete or edit order: ", [this](string chc){this->validateEditDeleteChoice(chc);});
+
+        if (choice == "edit"){
+            string newq = Menu::getUserInput("New quantity: ", [this](string nq){this->validateItemQuantity(nq);});
+
+            if (newq == "back")
+                continue;
+
+            int quant = stoi(newq);
+
+            if (quant == 0)
+                choice = "delete";
+
+            else {
+                try {
+                    cart.editOrderedQuantity(*chosenItem, quant);
                 }
-                this->validateOrderNumber(chc);
-                int i =1;
-                bool orderFoundFlag = false;
-                int c = stoi(chc);
-                for (auto const & p: allItems){
-                    if (i == c){
-                        orderFoundFlag = true;
-                        chosenItem = p.first;
-                        break;
-                    }
-                    ++i;
+                catch (InsufficientStockException ex){
+                    cout << ex.what() << endl;
                 }
-
-                if (!orderFoundFlag){
-                    throw BadDataException("Choice out of range!");
-                }
-            });
-
-
-    string choice = Menu::getUserInput("Delete or edit order: ", [this](string chc){this->validateEditDeleteChoice(chc);});
-
-    if (choice == "edit"){
-        string newq = Menu::getUserInput("New quantity: ", [this](string nq){this->validateItemQuantity(nq);});
-        int quant = stoi(newq);
-        if (quant == 0){
-            choice = "delete";
-        } else {
-            try {
-                cart.editOrderedQuantity(*chosenItem, quant);
-            } catch (InsufficientStockException ex){
-                cout << ex.what() << endl;
             }
         }
-    }
 
-    if (choice == "delete"){
-        cart.removeItem(*chosenItem);
-    } else if (choice == "back"){
-        this->editOrder(cart);
+        if (choice == "delete")
+            cart.removeItem(*chosenItem);
+
+        else if (choice == "back")
+            this->editOrder(cart);
+
+        break;
+
     }
 
 }
@@ -412,10 +447,8 @@ void Menu::validateCartOptions(string& option) {
 
 void Menu::validateBuyerNumber(string number) {
     transform(number.begin(), number.end(), number.begin(), ::tolower);
-    if (number == "back") {
-        this->runLoop();
+    if (number == "back")
         return;
-    }
 
     int n;
 
@@ -434,7 +467,7 @@ void Menu::validateBuyerNumber(string number) {
 
  void Menu::validateItemQuantity(string quantity) {
 
-    if (quantity == "" && !this->usr->isOwner())
+    if ((quantity == "" && !this->usr->isOwner()) || quantity == "back")
         return;
 
     int c;
@@ -476,10 +509,8 @@ void Menu::validateItemChoice(string chc){
 void Menu::validateCategoryChoice(string& chc) {
     transform(chc.begin(), chc.end(), chc.begin(), ::tolower);
 
-    if (chc == "back"){
-        this->runLoop();
+    if (chc == "back")
         return;
-    }
 
     vector <string> categories= this->eshop->getCategories();
 

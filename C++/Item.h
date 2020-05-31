@@ -4,8 +4,8 @@
 #include <string>
 #include <sstream>
 #include <iostream>
-#include "IllegalCharacterException.h"
 #include <iomanip>
+#include "IllegalCharacterException.h"
 
 using namespace std;
 

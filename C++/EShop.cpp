@@ -105,7 +105,7 @@ void EShop::updateItemStock(Item &item, int stock){
 		if (iptr->getId() == item.getId()){
 
 			item.setStock(stock);
-			cout << "Successfully updated stock of item with ID "	<< item.getId() << ".";
+			cout << "Successfully updated stock of item with ID "	<< item.getId() << "." << endl;
 			return;
 		}
 	}
