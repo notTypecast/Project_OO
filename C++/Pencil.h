@@ -2,6 +2,7 @@
 #define PENCIL_H
 
 #include "Item.h"
+#include <iomanip>
 
 class Pencil: public Item {
     public:

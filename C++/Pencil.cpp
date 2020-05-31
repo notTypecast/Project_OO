@@ -9,7 +9,12 @@ Pencil::Pencil(string n, double p, string d, int s, int i, double t, PENCIL_TYPE
 }
 
 string Pencil::getDetails() {
-    return ", Type: " + this->enum_to_string[this->pencilType] + ", Tip Size: " + to_string(this->tipSize);
+
+    ostringstream detailsStream;
+    detailsStream << fixed << setprecision(2) << ", Type: " << this->enum_to_string[this->pencilType] << ", Tip Size: " << this->tipSize << "mm";
+
+    return detailsStream.str();
+        
 }
 
 string Pencil::getCategory() {

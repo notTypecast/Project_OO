@@ -1,5 +1,4 @@
 #include "Item.h"
-#include "IllegalCharacterException.h"
 
 Item::Item(string n, double p, string d, int s, int i): name(n), price(p), description(d), stock(s), id(i) {
 
@@ -9,14 +8,17 @@ Item::Item(string n, double p, string d, int s, int i): name(n), price(p), descr
 }
 
 string Item::getBasicInfo() {
+    ostringstream basicInfoStream;
+    basicInfoStream << setprecision(2) << fixed <<this->name << ";" << this->price << ";" << this->description << ";" << this->stock << ";" << this->id;
 
-    return this->name + ";" + to_string(this->price) + ";" + this->description + ";" + to_string(this->stock) + ";" + to_string(this->id);
+    return basicInfoStream.str();
 
 }
 
 string Item::toString() {
 
     string data[5];
+
 
     string initial = this->getBasicInfo();
     stringstream input_sstream(initial);

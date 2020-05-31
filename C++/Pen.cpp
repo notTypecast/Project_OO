@@ -8,7 +8,10 @@ Pen::Pen(string n, double p, string d, int s, int i, string c, double t): Item(n
 }
 
 string Pen::getDetails() {
-    return ", Color: " + this->color + ", Tip: " + to_string(this->tipSize) + " mm";
+    ostringstream detailsStream;
+    detailsStream << fixed << setprecision(2) << ", Color: " << this->color << ", Tip: " << this->tipSize << " mm";
+
+    return detailsStream.str();
 }
 
 string Pen::getCategory() {
