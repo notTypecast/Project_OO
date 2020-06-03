@@ -77,9 +77,9 @@ int  main(){
         cout.setstate(ios_base::failbit);
         streambuf *cinBackup;
 
-        istringstream oss("y");
+        istringstream iss("y");
         cinBackup = cin.rdbuf();
-        cin.rdbuf(oss.rdbuf());
+        cin.rdbuf(iss.rdbuf());
 
         buyers[2]->getShoppingCart()->checkout(*buyers[2]);
 
@@ -93,9 +93,9 @@ int  main(){
         cout.setstate(ios_base::failbit);
         streambuf *cinBackup;
 
-        istringstream oss("y");
+        istringstream iss("y");
         cinBackup = cin.rdbuf();
-        cin.rdbuf(oss.rdbuf());
+        cin.rdbuf(iss.rdbuf());
 
         buyers[0]->getShoppingCart()->checkout(*buyers[0]);
 
