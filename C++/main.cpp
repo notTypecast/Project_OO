@@ -70,8 +70,38 @@ int  main(){
     buyers[1]->placeOrder(*items[9], 2);
     buyers[2]->placeOrder(*items[2], 1);
     buyers[2]->placeOrder(*items[6], 3);
-    buyers[2]->placeOrder(*items[11], 5);
+    buyers[2]->placeOrder(*items[11], 600);
 
+    // suppressing cout, manually handling cin, third buyer checking out
+    {
+        cout.setstate(ios_base::failbit);
+        streambuf *coutBackup;
+
+        istringstream oss("y");
+        coutBackup = cin.rdbuf();
+        cin.rdbuf(oss.rdbuf());
+
+        buyers[2]->getShoppingCart()->checkout(*buyers[2]);
+
+        cin.rdbuf(coutBackup);
+        cout.clear();
+    }
+
+
+    // suppressing cout, manually handling cin, first buyer checking out
+    {
+        cout.setstate(ios_base::failbit);
+        streambuf *coutBackup;
+
+        istringstream oss("y");
+        coutBackup = cin.rdbuf();
+        cin.rdbuf(oss.rdbuf());
+
+        buyers[0]->getShoppingCart()->checkout(*buyers[0]);
+
+        cin.rdbuf(coutBackup);
+        cout.clear();
+    }
 
     Menu menu(eshop);
 
