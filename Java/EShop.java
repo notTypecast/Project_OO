@@ -155,7 +155,11 @@ public class EShop {
         System.out.println(product.toString());
     }
 
-    public void checkStatus(){
+    public void checkStatus() throws NoBuyersException{
+
+        if (buyersList.isEmpty()){
+            throw new NoBuyersException();
+        }
     	
     	int maxlen_name = 0;
     	

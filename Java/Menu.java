@@ -292,8 +292,16 @@ public class Menu {
 	
 	//method for owner to check eshop status
 	private void ownerCheckStatus(Owner owner) {
-		//show buyers, numbered
-		this.eshop.checkStatus();
+
+        try {
+            //show buyers, numbered
+            this.eshop.checkStatus();
+
+        } catch (NoBuyersException ex){
+            System.out.println(ex.toString());
+            return;
+        }
+
 
 		String input;
 		int c;
