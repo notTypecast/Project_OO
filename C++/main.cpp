@@ -75,15 +75,15 @@ int  main(){
     // suppressing cout, manually handling cin, third buyer checking out
     {
         cout.setstate(ios_base::failbit);
-        streambuf *coutBackup;
+        streambuf *cinBackup;
 
         istringstream oss("y");
-        coutBackup = cin.rdbuf();
+        cinBackup = cin.rdbuf();
         cin.rdbuf(oss.rdbuf());
 
         buyers[2]->getShoppingCart()->checkout(*buyers[2]);
 
-        cin.rdbuf(coutBackup);
+        cin.rdbuf(cinBackup);
         cout.clear();
     }
 
@@ -91,15 +91,15 @@ int  main(){
     // suppressing cout, manually handling cin, first buyer checking out
     {
         cout.setstate(ios_base::failbit);
-        streambuf *coutBackup;
+        streambuf *cinBackup;
 
         istringstream oss("y");
-        coutBackup = cin.rdbuf();
+        cinBackup = cin.rdbuf();
         cin.rdbuf(oss.rdbuf());
 
         buyers[0]->getShoppingCart()->checkout(*buyers[0]);
 
-        cin.rdbuf(coutBackup);
+        cin.rdbuf(cinBackup);
         cout.clear();
     }
 
