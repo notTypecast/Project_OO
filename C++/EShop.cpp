@@ -181,6 +181,10 @@ void EShop::showProduct(Item &product){
 
 void EShop::checkStatus(){
 
+    if (this->buyersVec.empty()){
+        throw NoBuyersException();
+    }
+
 	unsigned int maxlen_name = 0;
 
 	for (User * &bref: this->buyersVec){

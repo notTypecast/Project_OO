@@ -10,6 +10,7 @@
 #include "BuyerAlreadyExistsException.h"
 #include "BuyerNotFoundException.h"
 #include "UserNotFoundException.h"
+#include "NoBuyersException.h"
 #include "Buyer.h"
 #include "User.h"
 #include <vector>

@@ -162,7 +162,12 @@ void Menu::ownerEditItem(Item& chosenItem, string category) {
 
 void Menu::ownerCheckStatus() {
 
-    this->eshop->checkStatus();
+    try {
+        this->eshop->checkStatus();
+    } catch(NoBuyersException e){
+        cout << e.what() << endl;
+        return;
+    }
 
     string number = Menu::getUserInput("Select a buyer by number: ", [this](string number){this->validateBuyerNumber(number);});
 
